@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux'
-import currencyReducer from './currencyReducer'
+import { currenciesReducer, selectedCurrencyReducer } from './currencyReducer'
 
 
 export default combineReducers({
-    currency: currencyReducer
+    currencies: currenciesReducer,
+    selectedCurrency: selectedCurrencyReducer
 })

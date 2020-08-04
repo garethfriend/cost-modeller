@@ -1,12 +1,25 @@
-import { FETCH_CURRENCY } from '../actions/types'
+import { FETCH_CURRENCIES } from '../actions/types'
+import { CURRENCY_SELECTED } from '../actions/types'
 
 
-export default (state = [], action) => {
+export const currenciesReducer = (currencies = [], action) => {
     switch (action.type) {
-        case FETCH_CURRENCY:
+        case FETCH_CURRENCIES:
             return action.payload
         default:
-            return state
+            return currencies
     }
-    
+}
+
+const initialCurrency = {
+    currency: 'USD',
+    baseRate: 1
+}
+
+export const selectedCurrencyReducer = (selectedCurrency = initialCurrency, action) => {
+    if (action.type === CURRENCY_SELECTED) {
+        return action.payload
+    }
+
+    return selectedCurrency
 }
