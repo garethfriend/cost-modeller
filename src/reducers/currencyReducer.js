@@ -1,25 +1,45 @@
-import { FETCH_CURRENCIES } from '../actions/types'
+import { FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_ERROR, FETCH_CURRENCIES_REQUEST } from '../actions/types'
 import { CURRENCY_SELECTED } from '../actions/types'
+import { combineReducers } from 'redux'
 
+const INITIAL_STATE = {}
 
-export const currenciesReducer = (currencies = [], action) => {
+const ratesReducer = (currency = INITIAL_STATE, action) => {
     switch (action.type) {
-        case FETCH_CURRENCIES:
-            return action.payload
+        case FETCH_CURRENCIES_SUCCESS:
+        case FETCH_CURRENCIES_ERROR:
+            return action.payload.rates
         default:
-            return currencies
+            return currency
     }
 }
 
-const initialCurrency = {
-    currency: 'USD',
+const loadingReducer = (isLoading = true, action) => {
+    switch (action.type) {
+        case FETCH_CURRENCIES_SUCCESS:
+        case FETCH_CURRENCIES_ERROR:
+        case FETCH_CURRENCIES_REQUEST:
+            return action.payload.isLoading
+        default:
+            return isLoading
+    }
+}
+
+const INITIAL_CURRENCY = {
+    code: 'USD',
     baseRate: 1
 }
 
-export const selectedCurrencyReducer = (selectedCurrency = initialCurrency, action) => {
+const selectedCurrencyReducer = (baseCurrency = INITIAL_CURRENCY, action) => {
     if (action.type === CURRENCY_SELECTED) {
         return action.payload
     }
 
-    return selectedCurrency
+    return baseCurrency
 }
+
+export default combineReducers({
+    rates: ratesReducer,
+    isLoading: loadingReducer,
+    baseCurrency: selectedCurrencyReducer,
+})

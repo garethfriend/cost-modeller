@@ -1,43 +1,60 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchCurrencies, selectBaseCurrency } from '../actions'
+import { fetchCurrencies, selectBaseCurrency, selectBaseUnits } from '../actions'
 
 
 class Header extends Component {
     componentDidMount() {
         this.props.fetchCurrencies()
+        this.props.selectBaseUnits('mass')
     }
 
     
     currencyOptions = () => {
-        return Object.keys(this.props.currencies).map(currency => {
-            return (
-                <option 
-                    key={currency}
-                    value={currency}
-                >
-                    {currency}
-                </option>)
-        })
+        if (!this.props.isLoading) {
+            return Object.keys(this.props.rates).map(code => {
+                return (
+                    <option 
+                        key={code}
+                        value={code}
+                    >
+                        {code}
+                    </option>)
+            })
+        }
+        return 'loading...'
     }
 
     render() {
-        const {currencies, selectedCurrency, selectBaseCurrency, baseRate} = this.props
+        // console.log(this.props)
+        const {rates, selectedCurrency, selectBaseCurrency, baseRate, selectBaseUnits, selectedUnits} = this.props
         const renderConversion = selectedCurrency !== 'USD' ? ` ${baseRate} to the USD today.` : null
         return (
         <div>
             <div>
                 Select base currency:
                 <select 
-                    onChange={(event) => selectBaseCurrency(event.target.value, currencies)}
+                    onChange={(event) => selectBaseCurrency(event.target.value, rates)}
                     value={selectedCurrency}
                 >
                     {this.currencyOptions()}
                 </select>
                 {renderConversion}
             </div>
-            <h1>Ingredient Cost Modeller</h1>
-            convert units, prices and measures simply to see the effect of changes on ingredient cost.
+            <div>
+                Select base units of measurement:
+                <select 
+                    onChange={(event) => selectBaseUnits(event.target.value)} 
+                    value={selectedUnits}
+                >
+                    <option value="mass" >mass</option>
+                    <option value="volume" >volume</option>
+                </select>
+            </div>
+            <div className="ui large header">
+                <h1>Ingredient Cost Modeller</h1>
+                convert units, prices and measures simply to see the effect of changes on ingredient cost.
+            </div>
         </div>
         )
     }
@@ -45,10 +62,12 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     return { 
-        currencies: state.currencies,
-        selectedCurrency: state.selectedCurrency.currency,
-        baseRate: state.selectedCurrency.baseRate 
+        rates: state.currency.rates,
+        isLoading: state.currency.isLoading,
+        selectedCurrency: state.currency.baseCurrency.code,
+        baseRate: state.currency.baseCurrency.baseRate,
+        selectedUnits: state.units.unitTypes
     }
 }
 
-export default connect(mapStateToProps, { fetchCurrencies, selectBaseCurrency })(Header)
+export default connect(mapStateToProps, { fetchCurrencies, selectBaseCurrency, selectBaseUnits })(Header)

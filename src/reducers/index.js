@@ -1,8 +1,15 @@
 import { combineReducers } from 'redux'
-import { currenciesReducer, selectedCurrencyReducer } from './currencyReducer'
+import currencyReducer from './currencyReducer'
+import unitsReducer from './unitsReducer'
+import 'semantic-ui-css/semantic.min.css'
+import { errorsReducer } from './errorsReducer'
 
 
 export default combineReducers({
-    currencies: currenciesReducer,
-    selectedCurrency: selectedCurrencyReducer
+    currency: currencyReducer,
+    units: unitsReducer,
+    errors: errorsReducer,
+    // fixedQuant: fixedQuantReducer,
+    // flexQuant: flexQuantReducer,
+    // subjectQuant: subjectQuantReducer 
 })
