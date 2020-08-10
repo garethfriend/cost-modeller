@@ -5,6 +5,7 @@ export const FETCH_CURRENCIES_ERROR = 'FETCH_CURRENCIES_ERROR'
 export const CURRENCY_SELECTED = 'CURRENCY_SELECTED'
 
 // weights and measures
+export const BASE_UNITS_SELECTED = 'BASE_UNITS_SELECTED'
 export const UNITS_SELECTED = 'UNITS_SELECTED'
 
 // ingredient related
@@ -16,3 +17,7 @@ export const ASSIGN_INGREDIENT = 'ASSIGN_INGREDIENT'
 // group related
 export const CLEAR_GROUP = 'CLEAR_GROUP'
 export const SIZE_GROUP = 'SIZE_GROUP'
+
+// total quantity related
+export const TOTAL_QUANTITY_CHANGE = 'TOTAL_QUANTITY_CHANGE'
+export const TOTAL_QUANTITY_UNITS_CHANGE = 'TOTAL_QUANTITY_UNITS_CHANGE'

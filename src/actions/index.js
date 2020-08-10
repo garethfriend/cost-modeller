@@ -4,7 +4,10 @@ import {
     FETCH_CURRENCIES_SUCCESS,
     FETCH_CURRENCIES_ERROR, 
     CURRENCY_SELECTED, 
-    UNITS_SELECTED 
+    BASE_UNITS_SELECTED,
+    UNITS_SELECTED,
+    TOTAL_QUANTITY_CHANGE,
+    TOTAL_QUANTITY_UNITS_CHANGE 
 } from './types'
 import { mass, volume } from 'units-converter'
 
@@ -68,7 +71,7 @@ export const selectBaseCurrency = (code, rates) => {
 export const selectBaseUnits = (units) => {
     if (units === 'mass') {
         return {
-            type: UNITS_SELECTED,
+            type: BASE_UNITS_SELECTED,
             payload: {
                 unitTypes: units,
                 definitions: mass().list()
@@ -76,7 +79,7 @@ export const selectBaseUnits = (units) => {
         }
     } else if (units === 'volume') {
         return {
-            type: UNITS_SELECTED,
+            type: BASE_UNITS_SELECTED,
             payload: {
                 unitTypes: units,
                 definitions: volume().list()
@@ -85,3 +88,25 @@ export const selectBaseUnits = (units) => {
     }
     return []    
 }
+
+export const selectUnits = (id, unit) => ({
+    type: UNITS_SELECTED,
+    payload: {
+        ingredientId: id,
+        selectedUnit: unit
+    }
+})
+
+export const totalQuantityChange = (quantity) =>  ({
+    type: TOTAL_QUANTITY_CHANGE,
+    payload: {
+        quantity: quantity
+    }
+})
+
+export const totalQuantityUnitsChange = (unit) =>  ({
+    type: TOTAL_QUANTITY_UNITS_CHANGE,
+    payload: {
+        unit: unit
+    }
+})

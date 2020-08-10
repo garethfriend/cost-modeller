@@ -1,5 +1,9 @@
-import { FETCH_CURRENCIES_SUCCESS, FETCH_CURRENCIES_ERROR, FETCH_CURRENCIES_REQUEST } from '../actions/types'
-import { CURRENCY_SELECTED } from '../actions/types'
+import { 
+    FETCH_CURRENCIES_SUCCESS, 
+    FETCH_CURRENCIES_ERROR, 
+    FETCH_CURRENCIES_REQUEST,
+    CURRENCY_SELECTED 
+} from '../actions/types'
 import { combineReducers } from 'redux'
 
 const INITIAL_STATE = {}

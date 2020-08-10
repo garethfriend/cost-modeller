@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { fetchCurrencies, selectBaseCurrency, selectBaseUnits } from '../actions'
+import CurrencyDropdown from './CurrencyDropdown'
+
 
 
 class Header extends Component {
@@ -8,66 +10,60 @@ class Header extends Component {
         this.props.fetchCurrencies()
         this.props.selectBaseUnits('mass')
     }
-
     
-    currencyOptions = () => {
-        if (!this.props.isLoading) {
-            return Object.keys(this.props.rates).map(code => {
-                return (
-                    <option 
-                        key={code}
-                        value={code}
-                    >
-                        {code}
-                    </option>)
-            })
-        }
-        return 'loading...'
-    }
-
-    render() {
-        // console.log(this.props)
+    renderDropdowns = () => {
         const {rates, selectedCurrency, selectBaseCurrency, baseRate, selectBaseUnits, selectedUnits} = this.props
         const renderConversion = selectedCurrency !== 'USD' ? ` ${baseRate} to the USD today.` : null
         return (
+            <Fragment>
+                <div className="field">
+                    <span>Select base currency: </span>
+                    <CurrencyDropdown 
+                        rates={rates}
+                        selectedCurrency={selectedCurrency}
+                        onChange={selectBaseCurrency}
+                    />
+                    {renderConversion}
+                </div>
+                <div className="field">
+                    <span>Select base units of measurement: </span>
+                    <select 
+                        onChange={(event) => selectBaseUnits(event.target.value)} 
+                        value={selectedUnits}
+                    >
+                        <option value="mass" >mass</option>
+                        <option value="volume" >volume</option>
+                    </select>
+                </div>
+            </Fragment>
+        )
+    }
+
+    render() {
+        const currencyLoader = () => <div className="ui active small text centered inline loader">Getting exchange rates...</div>
+
+        return (
         <div>
-            <div>
-                Select base currency:
-                <select 
-                    onChange={(event) => selectBaseCurrency(event.target.value, rates)}
-                    value={selectedCurrency}
-                >
-                    {this.currencyOptions()}
-                </select>
-                {renderConversion}
+                    
+            <div className="ui search-bar segment">
+                {this.props.isLoading ? currencyLoader() : this.renderDropdowns()}                
             </div>
-            <div>
-                Select base units of measurement:
-                <select 
-                    onChange={(event) => selectBaseUnits(event.target.value)} 
-                    value={selectedUnits}
-                >
-                    <option value="mass" >mass</option>
-                    <option value="volume" >volume</option>
-                </select>
-            </div>
-            <div className="ui large header">
+            <div className="ui segment">
                 <h1>Ingredient Cost Modeller</h1>
-                convert units, prices and measures simply to see the effect of changes on ingredient cost.
+                <p>convert units, prices and measures simply to see the effect of changes on ingredient cost.</p>
             </div>
         </div>
         )
     }
 }
 
-const mapStateToProps = (state) => {
-    return { 
+const mapStateToProps = (state) => ({ 
         rates: state.currency.rates,
         isLoading: state.currency.isLoading,
         selectedCurrency: state.currency.baseCurrency.code,
         baseRate: state.currency.baseCurrency.baseRate,
         selectedUnits: state.units.unitTypes
-    }
-}
+})
+
 
 export default connect(mapStateToProps, { fetchCurrencies, selectBaseCurrency, selectBaseUnits })(Header)

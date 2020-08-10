@@ -1,4 +1,4 @@
-import { UNITS_SELECTED } from '../actions/types'
+import { BASE_UNITS_SELECTED } from '../actions/types'
 import { mass } from 'units-converter'
 
 const INITIAL_UNITS = {
@@ -7,7 +7,7 @@ const INITIAL_UNITS = {
 }
 
 const unitsReducer = (units = INITIAL_UNITS, action) => {
-    if (action.type === UNITS_SELECTED) {
+    if (action.type === BASE_UNITS_SELECTED) {
         return action.payload
     }
     return units
