@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames }) => {
+const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames, className }) => {
     
     const measureOptions = definitions.map((measure, index) => {
         
@@ -13,7 +13,7 @@ const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames 
     })
     
     return (
-        <select value={selectedUnit} onChange={event => onChange(event.target.value, definitions)}>
+        <select className={className} value={selectedUnit} onChange={event => onChange(event.target.value, definitions)}>
             {measureOptions}
         </select>
     )

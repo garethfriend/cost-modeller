@@ -1,6 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 
-const CurrencyDropdown = ({rates, selectedCurrency, onChange}) => {
+const CurrencyDropdown = ({rates, selectedCurrency, onChange, className}) => {
     
     const currencyOptions = () => {
         return Object.keys(rates)
@@ -9,6 +10,7 @@ const CurrencyDropdown = ({rates, selectedCurrency, onChange}) => {
                     
     return (
         <select 
+            className={className}
             onChange={event => onChange(event.target.value, rates)}
             value={selectedCurrency}
         >
@@ -17,5 +19,9 @@ const CurrencyDropdown = ({rates, selectedCurrency, onChange}) => {
 
     )
 }
+
+const mapStateToProps = (state) => ({
+    rates: state.currency.rates
+})
     
-export default CurrencyDropdown
+export default connect(mapStateToProps)(CurrencyDropdown)

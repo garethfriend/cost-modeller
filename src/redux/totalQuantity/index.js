@@ -1,8 +1,26 @@
 import {
     TOTAL_QUANTITY_CHANGE,
     TOTAL_QUANTITY_UNITS_CHANGE
-} from '../actions/types'
+} from '../types'
 import {combineReducers} from 'redux'
+
+// ACTIONS
+
+export const totalQuantityChange = (quantity) =>  ({
+    type: TOTAL_QUANTITY_CHANGE,
+    payload: {
+        quantity: quantity
+    }
+})
+
+export const totalQuantityUnitsChange = (unit) =>  ({
+    type: TOTAL_QUANTITY_UNITS_CHANGE,
+    payload: {
+        unit: unit
+    }
+})
+
+// REDUCERS
 
 const unitReducer = (unit = 'g', action) => {
     if (action.type === TOTAL_QUANTITY_UNITS_CHANGE) {
@@ -14,13 +32,13 @@ const unitReducer = (unit = 'g', action) => {
 
 const quantityReducer = (quantity = '', action) => {
     if (action.type === TOTAL_QUANTITY_CHANGE) {
-        return action.payload
+        return action.payload.quantity
     }
 
     return quantity
 }
 
-export default combineReducers({
+export const totalQuantityReducer = combineReducers({
     unit: unitReducer,
     quantity: quantityReducer,
 })

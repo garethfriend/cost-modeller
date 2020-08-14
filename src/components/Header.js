@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { fetchCurrencies, selectBaseCurrency, selectBaseUnits } from '../actions'
+import { fetchCurrencies, selectBaseCurrency } from '../redux/currency'
+import { selectBaseUnits } from '../redux/units'
 import CurrencyDropdown from './CurrencyDropdown'
 
 
@@ -13,27 +14,33 @@ class Header extends Component {
     
     renderDropdowns = () => {
         const {rates, selectedCurrency, selectBaseCurrency, baseRate, selectBaseUnits, selectedUnits} = this.props
-        const renderConversion = selectedCurrency !== 'USD' ? ` ${baseRate} to the USD today.` : null
+        const renderConversion = selectedCurrency !== 'USD' ? <label className="ui left pointing label">{` ${baseRate} to the USD today.`}</label> : null
         return (
             <Fragment>
-                <div className="field">
-                    <span>Select base currency: </span>
-                    <CurrencyDropdown 
-                        rates={rates}
-                        selectedCurrency={selectedCurrency}
-                        onChange={selectBaseCurrency}
-                    />
+                <div className="column">
+                    <div className="item ui left labeled input">
+                        <label className="ui green label">Base currency: </label>
+                        <CurrencyDropdown 
+                            className="ui dropdown"
+                            rates={rates}
+                            selectedCurrency={selectedCurrency}
+                            onChange={selectBaseCurrency}
+                        />
                     {renderConversion}
+                    </div>                 
                 </div>
-                <div className="field">
-                    <span>Select base units of measurement: </span>
-                    <select 
-                        onChange={(event) => selectBaseUnits(event.target.value)} 
-                        value={selectedUnits}
-                    >
-                        <option value="mass" >mass</option>
-                        <option value="volume" >volume</option>
-                    </select>
+                <div className="column">
+                    <div className="item ui left labeled input">
+                        <label className="ui blue label">Base measures: </label>
+                        <select 
+                            className="ui dropdown"
+                            onChange={(event) => selectBaseUnits(event.target.value)} 
+                            value={selectedUnits}
+                        >
+                            <option value="mass" >mass</option>
+                            <option value="volume" >volume</option>
+                        </select>
+                    </div>
                 </div>
             </Fragment>
         )
@@ -44,9 +51,11 @@ class Header extends Component {
 
         return (
         <div>
-                    
-            <div className="ui search-bar segment">
-                {this.props.isLoading ? currencyLoader() : this.renderDropdowns()}                
+            <div className="search-bar ui segment">
+                <form className="ui stackable two column grid">
+                    {this.props.isLoading ? currencyLoader() : this.renderDropdowns()}                
+
+                </form>
             </div>
             <div className="ui segment">
                 <h1>Ingredient Cost Modeller</h1>
