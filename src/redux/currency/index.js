@@ -69,6 +69,8 @@ export const selectBaseCurrency = (code, rates) => ({
 
 const INITIAL_STATE = {}
 
+
+
 const ratesReducer = (currency = INITIAL_STATE, action) => {
     switch (action.type) {
         case FETCH_CURRENCIES_SUCCESS:
