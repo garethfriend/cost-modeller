@@ -1,36 +1,27 @@
-import { BASE_UNITS_SELECTED, UNITS_SELECTED } from '../types'
+import { BASE_UNITS_SELECTED } from '../types'
 import { mass, volume } from 'units-converter'
 
 // ACTIONS
 
-export const selectBaseUnits = (units) => {
-    if (units === 'mass') {
-        return {
-            type: BASE_UNITS_SELECTED,
-            payload: {
-                unitTypes: units,
-                definitions: mass().list()
-            }
-        }
-    } else if (units === 'volume') {
-        return {
-            type: BASE_UNITS_SELECTED,
-            payload: {
-                unitTypes: units,
-                definitions: volume().list()
-            }
-        }
+const createDefinitionList = (selectedUnits) => {
+    if(selectedUnits === 'volume') {
+        return volume().list()
+    } else {
+        return mass().list() 
     }
-    return []    
 }
 
-export const selectUnits = (id, unit) => ({
-    type: UNITS_SELECTED,
-    payload: {
-        ingredientId: id,
-        selectedUnit: unit
-    }
-})
+// action creator creates list of definitions so that other reducers can see the action and pull values from it too
+export const selectBaseUnits = (units) => {
+    const list = createDefinitionList(units)
+    return ({
+        type: BASE_UNITS_SELECTED,
+        payload: {
+            unitTypes: units,
+            definitions: list
+        }
+    })
+}
 
 // REDUCERS
 
@@ -40,9 +31,11 @@ const INITIAL_UNITS = {
 }
 
 export const unitsReducer = (units = INITIAL_UNITS, action) => {
-    if (action.type === BASE_UNITS_SELECTED) {
-        return action.payload
+    switch (action.type) {
+        case BASE_UNITS_SELECTED:
+            return action.payload
+        default:
+            return units
     }
-    return units
 }
 

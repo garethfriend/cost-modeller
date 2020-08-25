@@ -3,6 +3,7 @@ import { currencyReducer } from './currency'
 import { unitsReducer } from './units'
 import { errorsReducer } from './error'
 import { totalQuantityReducer } from './totalQuantity'
+import { ingredientReducer } from './ingredient'
 
 
 export default combineReducers({
@@ -10,7 +11,5 @@ export default combineReducers({
     units: unitsReducer,
     errors: errorsReducer,
     totalQuantity: totalQuantityReducer,
-    // fixedQuant: fixedQuantReducer,
-    // flexQuant: flexQuantReducer,
-    // subjectQuant: subjectQuantReducer 
+    ingredients: ingredientReducer
 })
