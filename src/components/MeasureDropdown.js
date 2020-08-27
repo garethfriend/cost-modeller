@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { getUnitDefinitions } from '../redux/rootReducer'
+
 
 const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames, className }) => {
     
@@ -20,7 +22,7 @@ const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames,
 }
 
 const mapStateToProps = (state) => ({
-    definitions: state.units.definitions
+    definitions: getUnitDefinitions(state)
 })
 
 export default connect(mapStateToProps)(MeasureDropdown)

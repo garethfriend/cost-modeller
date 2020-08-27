@@ -4,10 +4,13 @@ import { FETCH_CURRENCIES_ERROR } from "../types"
 
 const INITIAL_ERROR = null
    
-export const errorsReducer = (state = INITIAL_ERROR, action) => {
-    if (action.type === FETCH_CURRENCIES_ERROR) {
-
-        return action.payload.error
-    }
-        return state;
+const errorsReducer = (state = INITIAL_ERROR, action) => {
+    switch (action.type) {
+        case FETCH_CURRENCIES_ERROR:
+            return action.payload.error
+        default:
+            return state
+        }
 }
+
+export default errorsReducer
