@@ -6,7 +6,6 @@ import {
 import { combineReducers } from 'redux'
 import axios from 'axios'
 import codes from '../../codes'
-import { createSelector } from 'reselect'
 
 // CONSTANTS
 

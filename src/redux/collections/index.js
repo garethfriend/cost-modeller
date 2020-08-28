@@ -7,26 +7,33 @@ import {combineReducers} from 'redux'
 
 // ACTIONS
 
-export const assignIngredient = (collection, id) => ({
-    type: ASSIGN_INGREDIENT,
-    payload: {
-        id: id,
-        collection: collection
+export const assignIngredient = (collection, ids) => {
+    const idsArray = [].concat(ids) // allows passing of a single value or array
+    return {
+        type: ASSIGN_INGREDIENT,
+        payload: {
+            ids: idsArray,
+            collection: collection
+        }
     }
-})
+}
+    
 
 // REDUCERS
 
 const collectionAssign = (state, collectionName, action) => {
-    if (action.payload.collection === collectionName && state.indexOf(action.payload.id) === -1) {
-        return [...state, action.payload.id]
-    } else if (action.payload.collection !== collectionName && state.indexOf(action.payload.id) > -1) {
-        return state.filter(id => id !== action.payload.id)
+    // if this is the collection they are being assigned to only add the ids not already present
+    if (action.payload.collection === collectionName) {
+        return [...state, ...action.payload.ids.filter( ( el ) => !state.includes( el ) )]
+    // if this is not the collection they are being assigned to remove those ids that are present in the payload
+    } else if (action.payload.collection !== collectionName) {
+        return state.filter( ( el ) => !action.payload.ids.includes( el ) )
     } else {
         return state
     }
 } 
 
+// TO DO - make delete work with arrays
 const createCollectionReducer = collectionName => (state = [], action) => {
     switch (action.type) {
         case ASSIGN_INGREDIENT:
@@ -53,3 +60,7 @@ const collectionsReducer = combineReducers({
 export default collectionsReducer
 
 // SELECTORS
+
+export const variableIds = state => state.variable
+export const fixedIds = state => state.fixed
+export const balanceIds = state => state.balance

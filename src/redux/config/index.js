@@ -9,17 +9,17 @@ import { mass, volume } from 'units-converter'
 
 // ACTIONS
 
-export const selectUnitType = (type) => ({
+export const changeUnitType = (type) => ({
     type: UNIT_TYPES_SELECTED,
     payload: type
 })
 
-export const selectBaseUnits = (unit) => ({
+export const changeBaseUnits = (unit) => ({
     type: BASE_UNITS_SELECTED,
     payload: unit
 })
 
-export const selectBaseCurrency = (code) => ({
+export const changeBaseCurrency = (code) => ({
     type: BASE_CURRENCY_SELECTED,
     payload: code
 })
@@ -72,7 +72,6 @@ const getUnitTypes = state => state.unitType
 export const getUnitDefinitions = createSelector(
     getUnitTypes,
     (unitType) => {
-        console.log('computed unit types')
         switch (unitType) {
             case 'volume':
                 return volume().list()
