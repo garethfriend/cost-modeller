@@ -67,7 +67,7 @@ export const getBaseCurrency = state => state.baseCurrency
 
 export const getBaseUnit = state => state.baseUnit
 
-const getUnitTypes = state => state.unitType
+export const getUnitTypes = state => state.unitType
 
 export const getUnitDefinitions = createSelector(
     getUnitTypes,

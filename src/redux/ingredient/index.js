@@ -5,7 +5,6 @@ import {
     CREATE_INGREDIENT,
     EDIT_INGREDIENT,
     DELETE_INGREDIENT,
-    ASSIGN_INGREDIENT,
     OPEN_INGREDIENT,
     CLOSE_INGREDIENT,
 } from '../types'
@@ -40,18 +39,13 @@ export const editIngredient = (id, data) => ({
     }
 })
 
-export const deleteIngredient = (id) => ({
-    type: DELETE_INGREDIENT,
-    payload: id
-})
-
-export const assignIngredient = (id, collection) => ({
-    type: ASSIGN_INGREDIENT,
-    payload: {
-        id: id,
-        collection: collection // 'variable' 'fixed' or 'balance'
+export const deleteIngredient = (ids) => {
+    const idsArray = [].concat(ids)    
+    return {
+        type: DELETE_INGREDIENT,
+        payload: idsArray
     }
-})
+}
 
 // REDUCERS
 
@@ -96,7 +90,7 @@ const ingredientReducer = (state = [], action) => {
         case EDIT_INGREDIENT:
             return [...state, mapIngredientProps(action)]
         case DELETE_INGREDIENT:
-            return state.filter(ingredient => ingredient.id !== action.payload)
+            return state.filter(ingredient => !action.payload.includes(ingredient.id))
         default:
             return state
     }
@@ -104,5 +98,4 @@ const ingredientReducer = (state = [], action) => {
 
 export default ingredientReducer
 
-// SELECTORS
 

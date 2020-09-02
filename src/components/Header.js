@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { fetchCurrencies, selectBaseCurrency } from '../redux/currency'
-import { selectBaseUnits } from '../redux/units'
+import { changeBaseCurrency, changeUnitType } from '../redux/config'
+import { fetchCurrencies } from '../redux/currency'
 import CurrencyDropdown from './CurrencyDropdown'
 
 
@@ -9,11 +9,11 @@ import CurrencyDropdown from './CurrencyDropdown'
 class Header extends Component {
     componentDidMount() {
         this.props.fetchCurrencies()
-        this.props.selectBaseUnits('mass')
+        this.props.changeUnitType('mass')
     }
     
     renderDropdowns = () => {
-        const {rates, selectedCurrency, selectBaseCurrency, baseRate, selectBaseUnits, selectedUnits} = this.props
+        const {rates, selectedCurrency, changeBaseCurrency, baseRate, changeUnitType, selectedUnits} = this.props
         const renderConversion = selectedCurrency !== 'USD' ? <label className="ui left pointing label">{` ${baseRate} to the USD today.`}</label> : null
         return (
             <Fragment>
@@ -24,7 +24,7 @@ class Header extends Component {
                             className="ui dropdown"
                             rates={rates}
                             selectedCurrency={selectedCurrency}
-                            onChange={selectBaseCurrency}
+                            onChange={changeBaseCurrency}
                         />
                     {renderConversion}
                     </div>                 
@@ -34,7 +34,7 @@ class Header extends Component {
                         <label className="ui blue label">Base measures: </label>
                         <select 
                             className="ui dropdown"
-                            onChange={(event) => selectBaseUnits(event.target.value)} 
+                            onChange={(event) => changeUnitType(event.target.value)} 
                             value={selectedUnits}
                         >
                             <option value="mass" >mass</option>
@@ -69,10 +69,10 @@ class Header extends Component {
 const mapStateToProps = (state) => ({ 
         rates: state.currency.rates,
         isLoading: state.currency.isLoading,
-        selectedCurrency: state.currency.baseCurrency.code,
-        baseRate: state.currency.baseCurrency.baseRate,
+        selectedCurrency: state.config.baseCurrency.code,
+        baseRate: state.config.baseCurrency.baseRate,
         selectedUnits: state.units.unitTypes
 })
 
 
-export default connect(mapStateToProps, { fetchCurrencies, selectBaseCurrency, selectBaseUnits })(Header)
+export default connect(mapStateToProps, { fetchCurrencies, changeBaseCurrency, changeUnitType })(Header)

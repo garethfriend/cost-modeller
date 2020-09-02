@@ -11,13 +11,6 @@ import codes from '../../codes'
 
 const INITIAL_RATES = Object.keys(codes).forEach(code => codes[code] = 1) // default all exchange rates to 1 if not replaced by API data
 
-// API
-
-const currency = axios.create({
-    baseURL: 'https://open.exchangerate-api.com/v6/latest'
-    // baseURL: 'https://v6.exchangerate-api.com/v6/YOUR-API-KEY/latest/USD'
-})
-
 // ACTIONS
 
 const loadRatesRequest = () => ({
@@ -49,7 +42,7 @@ export const fetchCurrencies = () => {
     return async function(dispatch) {
         dispatch(loadRatesRequest())
         try{
-            let response = (await currency.get()).data
+            let response = (await axios.get('https://open.exchangerate-api.com/v6/latest')).data
             if(response.result === "success"){
                 dispatch(loadRatesSuccess(response.rates))
             }else{

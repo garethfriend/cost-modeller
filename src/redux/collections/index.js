@@ -24,10 +24,10 @@ export const assignIngredient = (collection, ids) => {
 const collectionAssign = (state, collectionName, action) => {
     // if this is the collection they are being assigned to only add the ids not already present
     if (action.payload.collection === collectionName) {
-        return [...state, ...action.payload.ids.filter( ( el ) => !state.includes( el ) )]
+        return [...state, ...action.payload.ids.filter(id => !state.includes(id))]
     // if this is not the collection they are being assigned to remove those ids that are present in the payload
     } else if (action.payload.collection !== collectionName) {
-        return state.filter( ( el ) => !action.payload.ids.includes( el ) )
+        return state.filter(id => !action.payload.ids.includes(id))
     } else {
         return state
     }
@@ -41,7 +41,7 @@ const createCollectionReducer = collectionName => (state = [], action) => {
         case CREATE_INGREDIENT:
             return action.payload.collection === collectionName ? [...state, action.payload.id] : state
         case DELETE_INGREDIENT:
-            return state.filter(id => id !== action.payload)
+            return state.filter(id => !action.payload.includes(id))
         default:
             return state
     }
@@ -61,6 +61,6 @@ export default collectionsReducer
 
 // SELECTORS
 
-export const variableIds = state => state.variable
-export const fixedIds = state => state.fixed
-export const balanceIds = state => state.balance
+export const getVariableIds = state => state.variable
+export const getFixedIds = state => state.fixed
+export const getBalanceIds = state => state.balance
