@@ -74,23 +74,19 @@ describe('handling actions', () => {
                 collection: 'balance'
             }
         }
-        console.log(initialState)
 
         const newStateA = collectionsReducer(initialState, actionA)
 
-        console.log(newStateA)
         expect(newStateA.variable).toEqual(['945-6647-9977'])
         expect(newStateA.fixed).toEqual(['154-6876-8443', '249-8388-8355', '033-0058-1111', 'MOVER'])
         expect(newStateA.balance).toEqual(['158-2987-3546'])
 
         const newStateB = collectionsReducer(newStateA, actionB)
-        console.log(newStateB)
         expect(newStateB.variable).toEqual(['945-6647-9977', 'MOVER'])
         expect(newStateB.fixed).toEqual(['154-6876-8443', '249-8388-8355', '033-0058-1111'])
         expect(newStateB.balance).toEqual(['158-2987-3546'])
         
         const newStateC = collectionsReducer(newStateB, actionC)
-        console.log(newStateC)
         expect(newStateC.variable).toEqual(['945-6647-9977'])
         expect(newStateC.fixed).toEqual(['154-6876-8443', '249-8388-8355', '033-0058-1111'])
         expect(newStateC.balance).toEqual(['158-2987-3546', 'MOVER'])
@@ -122,23 +118,19 @@ describe('handling actions', () => {
                 collection: 'fixed'
             }
         }
-        console.log(initialState)
 
         const newStateA = collectionsReducer(initialState, actionA)
 
-        console.log(initialState, actionA, newStateA)
         expect(newStateA.variable).toEqual(['945-6647-9977', '033-0058-1111', 'MOVER'])
         expect(newStateA.fixed).toEqual(['154-6876-8443', '249-8388-8355'])
         expect(newStateA.balance).toEqual(['158-2987-3546'])
 
         const newStateB = collectionsReducer(newStateA, actionB)
-        console.log(newStateB)
         expect(newStateB.variable).toEqual(['033-0058-1111', 'MOVER'])
         expect(newStateB.fixed).toEqual(['249-8388-8355'])
         expect(newStateB.balance).toEqual(['158-2987-3546', '945-6647-9977', '154-6876-8443'])
         
         const newStateC = collectionsReducer(newStateB, actionC)
-        console.log(newStateC)
         expect(newStateC.variable).toEqual([])
         expect(newStateC.fixed).toEqual(['249-8388-8355', '033-0058-1111', 'MOVER'])
         expect(newStateC.balance).toEqual(['158-2987-3546', '945-6647-9977', '154-6876-8443'])
@@ -153,7 +145,6 @@ describe('handling actions', () => {
 
         const newStateA = collectionsReducer(initialState, actionA)
 
-        console.log(initialState, actionA, newStateA)
         expect(newStateA.variable).toEqual(['945-6647-9977'])
         expect(newStateA.fixed).toEqual(['154-6876-8443', '249-8388-8355'])
         expect(newStateA.balance).toEqual(['158-2987-3546'])
@@ -170,7 +161,6 @@ describe('handling actions', () => {
         }
         const newStateA = collectionsReducer(initialState, actionA)
 
-        console.log(initialState, actionA, newStateA)
         expect(newStateA.variable).toEqual(['945-6647-9977', 'NEW ID'])
         expect(newStateA.fixed).toEqual(['154-6876-8443', '249-8388-8355', '033-0058-1111'])
         expect(newStateA.balance).toEqual(['158-2987-3546', 'MOVER'])

@@ -33,7 +33,6 @@ const collectionAssign = (state, collectionName, action) => {
     }
 } 
 
-// TO DO - make delete work with arrays
 const createCollectionReducer = collectionName => (state = [], action) => {
     switch (action.type) {
         case ASSIGN_INGREDIENT:
@@ -58,9 +57,3 @@ const collectionsReducer = combineReducers({
 })
 
 export default collectionsReducer
-
-// SELECTORS
-
-export const getVariableIds = state => state.variable
-export const getFixedIds = state => state.fixed
-export const getBalanceIds = state => state.balance
