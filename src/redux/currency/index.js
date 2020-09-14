@@ -9,7 +9,7 @@ import codes from '../../codes'
 
 // CONSTANTS
 
-const INITIAL_RATES = Object.keys(codes).forEach(code => codes[code] = 1) // default all exchange rates to 1 if not replaced by API data
+const INITIAL_RATES = Object.fromEntries(Object.keys(codes).map((code) => [code, 1])) // default all exchange rates to 1 if not replaced by API data
 
 // ACTIONS
 
@@ -60,6 +60,7 @@ const ratesReducer = (currency = INITIAL_RATES, action) => {
     switch (action.type) {
         case FETCH_CURRENCIES_SUCCESS:
         case FETCH_CURRENCIES_ERROR:
+            console.log(action.type)
             return action.payload.rates
         default:
             return currency
