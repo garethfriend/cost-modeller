@@ -4,20 +4,17 @@ import { mass, volume } from 'units-converter'
 
 import * as fromCurrency from './currency'
 import * as fromConfig from './config'
-import * as fromIngredient from './ingredient'
 
 // Selectors that need to know about the state slice shape are defined in the same file as the associated reducer and imported here.
 
 // CONFIG RELATED SELECTORS
 // memoized selector that maps the unit definitions for the MeasureDropdown component
 const getUnitDefinitions = state => fromConfig.getUnitDefinitions(state.config)
-const getBaseUnit = state => fromConfig.getBaseUnit(state.config)
-const getUnitType = state => fromConfig.getUnitTypes(state.config)
 const getBaseCurrency = state => fromConfig.getBaseCurrency(state.config)
 const getConfig = state => state.config
 
 
-// CURRENCY AND CURERNCY CONVERSION SELECTORS
+// CURRENCY AND CURRENCY CONVERSION SELECTORS
 const getRates = state => fromCurrency.getRates(state.currency)
 const getPriceCurrency = (_, priceCurrency) => priceCurrency
 
@@ -49,10 +46,6 @@ const getCollection = (state, collection) => state.collections[collection]
 // INGREDIENT SELECTORS
 const getIngredients = state => state.ingredients
 const getIngredientById = (state, id) => state.ingredients.filter(ingredient => ingredient.id === id)
-
-// uses fast-deep-equal instead of default equality checker
-// const createDeepEqualSelector = createSelectorCreator(defaultMemoize, equal)
-
 
 /**
  * Function to return all ingredient objects in a collection.
@@ -155,34 +148,10 @@ const getCollectionCostPerBaseUnit = createSelector(
             const costPerBaseUnit = costInBaseCurrency / costedQuantityInBaseUnits
             const ingredientPercentWeighting = ingredient.quantity / totalQuantity
             return prev + (costPerBaseUnit * ingredientPercentWeighting)
-        },0)
+        }, 0)
     }
     
 )
-
-// for a given ingredient calculate its cost in baseCurrency per baseUnit:
-// convert ingredient.cost to baseCurrency - getBaseCurrencyExchangeRate(ingredient.pricedInCurrency) basePrice
-// calculate cost per baseUnit - mass(ingredient.numberOfUnits).from(ingredient.unit).to(baseUnits) baseQuantity
-// basePrice/baseQuantity
-
-// calculate the collection basePrice per baseUnit:
-// (fraction*price) + (fraction*price) + (fraction*price)... = pTotal
-
-
-const normalCostCalc = (ingredients, baseCurrency, baseUnit, rates, unitType) => ingredients.reduce((acc, ingredient) => {
-    const exchangeRate = rates[baseCurrency] / rates[ingredient.pricedInCurrency]
-    const costPerUnit = (ingredient.cost / ingredient.numberOfUnits) 
-    let unitConversionFactor
-    if (unitType === 'mass') {
-        unitConversionFactor = mass(1).from(ingredient.unit).to(baseUnit).value
-    } else {
-        unitConversionFactor = volume(1).from(ingredient.unit).to(baseUnit).value
-    }
-    const normalCostperUnit = costPerUnit * unitConversionFactor * exchangeRate
-    return acc + normalCostperUnit
-})
-
- // calculated: (baseCurrencyRate/priceInCurrencyRate)*mass(cost/numberOfUnits).from(unit).to(totalQuantity.baseUnit).value
 
 export {
     getUnitDefinitions,
