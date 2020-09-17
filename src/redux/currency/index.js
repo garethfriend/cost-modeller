@@ -60,7 +60,6 @@ const ratesReducer = (currency = INITIAL_RATES, action) => {
     switch (action.type) {
         case FETCH_CURRENCIES_SUCCESS:
         case FETCH_CURRENCIES_ERROR:
-            console.log(action.type)
             return action.payload.rates
         default:
             return currency

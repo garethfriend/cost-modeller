@@ -77,7 +77,6 @@ describe('fetchCurrencies actions', () => {
         return store.dispatch(currency.fetchCurrencies())
             .then(() => {
                 const newState = store.getState()
-                console.log(newState)
                 expect(newState.currency).toEqual(expectedState.currency)
                 expect(newState.errors).toEqual(expectedState.errors)
             }) 
@@ -168,7 +167,6 @@ describe('fetchCurrencies actions', () => {
         return store.dispatch(currency.fetchCurrencies())
             .then(() => {
                 const newState = store.getState()
-                console.log(newState)
                 expect(newState.currency).toEqual(expectedState.currency)
                 expect(newState.errors).toEqual(expectedState.errors)
             }) 
