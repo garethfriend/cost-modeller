@@ -50,6 +50,17 @@ describe('getCollectionTotalQuantity', () => {
     const expectedQuantity = 764.323
         expect(fixedTotal + balanceTotal + variableTotal).toBe(expectedQuantity)
   })
+  it('memoizes function correctly', () => {
+    selectors.getCollectionTotalQuantity.clearCache()
+    selectors.getCollectionTotalQuantity.resetRecomputations()
+    selectors.getCollectionTotalQuantity(state, 'balance')
+    selectors.getCollectionTotalQuantity(state, 'variable')
+    expect(selectors.getCollectionTotalQuantity.recomputations()).toBe(2)
+    selectors.getCollectionTotalQuantity(state, 'fixed')
+    selectors.getCollectionTotalQuantity(state, 'balance')
+    expect(selectors.getCollectionPercentOfTotal.recomputations()).toBe(3)
+
+})
 })
 
 describe('getIngredientsTotalQuantity', () => {
@@ -58,6 +69,13 @@ describe('getIngredientsTotalQuantity', () => {
         const projectTotal = selectors.getIngredientsTotalQuantity(state)
         expect(projectTotal).toBe(expectedQuantity)
     })
+    it('memoizes function correctly', () => {
+        selectors.getIngredientsTotalQuantity.resetRecomputations()
+        selectors.getIngredientsTotalQuantity(state)
+        selectors.getIngredientsTotalQuantity(state)
+        selectors.getIngredientsTotalQuantity(state)
+        expect(selectors.getIngredientsTotalQuantity.recomputations()).toBe(0)
+    });
 })
 
 describe('getCollectionPercentOfTotal', () => {
@@ -72,10 +90,35 @@ describe('getCollectionPercentOfTotal', () => {
     it('sum of collection percentages should equal 1', () => {
         expect(fixedPercent + balancePercent + variablePercent).toBe(1)
     })
+    it('memoizes function correctly', () => {
+        selectors.getCollectionPercentOfTotal.clearCache()
+        selectors.getCollectionPercentOfTotal.resetRecomputations()
+        selectors.getCollectionPercentOfTotal(state, 'balance')
+        selectors.getCollectionPercentOfTotal(state, 'variable')
+        expect(selectors.getCollectionPercentOfTotal.recomputations()).toBe(2)
+        selectors.getCollectionPercentOfTotal(state, 'fixed')
+        selectors.getCollectionPercentOfTotal(state, 'balance')
+        expect(selectors.getCollectionPercentOfTotal.recomputations()).toBe(3)
+
+    })
 })
 
 describe('getCollectionCostPerBaseUnit', () => {
-    const expectedCost = 0.0002909525993085643
-    const cost = selectors.getCollectionCostPerBaseUnit(state, 'fixed')
-    expect(cost).toBe(expectedCost)
-});
+    it('calculates the correct cost', () => {
+        const expectedCost = 0.0002909525993085643
+        const cost = selectors.getCollectionCostPerBaseUnit(state, 'fixed')
+        expect(cost).toBe(expectedCost)
+    })
+    it('memoizes the function correctly', () => {
+        selectors.getCollectionCostPerBaseUnit.clearCache()
+        selectors.getCollectionCostPerBaseUnit.resetRecomputations()
+        selectors.getCollectionCostPerBaseUnit(state, 'fixed')
+        selectors.getCollectionCostPerBaseUnit(state, 'balance')
+        selectors.getCollectionCostPerBaseUnit(state, 'variable')
+        expect(selectors.getCollectionCostPerBaseUnit.recomputations()).toBe(3)
+        selectors.getCollectionCostPerBaseUnit(state, 'fixed')
+        selectors.getCollectionCostPerBaseUnit(state, 'balance')
+        expect(selectors.getCollectionCostPerBaseUnit.recomputations()).toBe(3)
+
+    })
+})
