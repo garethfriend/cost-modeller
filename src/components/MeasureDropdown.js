@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getUnitDefinitions } from '../redux/rootReducer'
+import { getUnitDefinitions } from '../redux/selectors'
 
 
 const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames, className }) => {

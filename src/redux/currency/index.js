@@ -87,5 +87,6 @@ export default currencyReducer
 // SELECTORS
 
 export const getRates = state => state.rates
+export const getLoadingStatus = state => state.isLoading
 
 

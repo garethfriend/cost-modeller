@@ -11,11 +11,15 @@ import * as fromConfig from './config'
 // CONFIG RELATED SELECTORS
 // memoized selector that maps the unit definitions for the MeasureDropdown component
 const getUnitDefinitions = state => fromConfig.getUnitDefinitions(state.config)
+const getBaseCurrency = state => fromConfig.getBaseCurrency(state.config)
+const getBaseUnit = state => fromConfig.getBaseUnit(state.config)
+const getUnitType = state => fromConfig.getUnitType(state.config)
 const getConfig = state => state.config
 
 
 // CURRENCY AND CURRENCY CONVERSION SELECTORS
 const getRates = state => fromCurrency.getRates(state.currency)
+const getLoadingStatus = state => fromCurrency.getLoadingStatus(state.currency)
 
 /**
  * Function for converting between a price currency and the base currency.
@@ -165,7 +169,12 @@ const getCollectionCostPerBaseUnit = createCachedSelector(
 
 
 export {
+    getRates,
+    getLoadingStatus,
     getUnitDefinitions,
+    getBaseUnit,
+    getUnitType,
+    getBaseCurrency,
     getBaseCurrencyExchangeRate,
     getCollectionIngredients,  
     getIngredientsTotalQuantity,

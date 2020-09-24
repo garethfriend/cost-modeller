@@ -1,55 +1,48 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {connect} from 'react-redux'
-import MeasureDropdown from './MeasureDropdown'
-import { totalQuantityUnitsChange, totalQuantityChange } from '../redux/totalQuantity'
 
-const Calculator = (props) => {
-    const { totalQuantity, totalQuantityUnits, totalQuantityUnitsChange, totalQuantityChange } = props
+import * as selectors from '../redux/selectors'
+import ProjectOptions from './ProjectOptions'
+
+const Calculator = () => {
     
-
+    const [visible, setVisible] = useState(false)
+    
+    
     return (
-        <div className="ui segment">
-            <h2>Ingredients</h2>
-            <div className="ui three column stackable grid">
-                <div className="column">
-                    <h3>Subject</h3>
-                </div>
-                <div className="ui vertical divider"></div>
-                <div className="column">
-                    <h3>Flex</h3>
-                </div>
-                <div className="column">
-                    <h3>Fixed</h3>
-                </div>
-            </div>
-            <form>
-                <div className="">
-                    <div className="">Total quantity:</div>
-                    <input 
-                        className="ui input"
-                        type="number"
-                        onChange={event => totalQuantityChange(event.target.value)} 
-                        value={totalQuantity} 
-                    />
+        <></>
+        // <Sidebar.Pushable as={Segment} attached clearing>
+        //     <Sidebar
+        //         as={Segment}
+        //         animation='overlay'
+        //         icon='labeled'
+        //         onHide={() => setVisible(false)}
+        //         direction='top'
+        //         visible={visible}
+        //     >
+        //         <ProjectOptions />
+        //     </Sidebar>
 
-                    <MeasureDropdown 
-                        className="ui basic select"
-                        onChange={totalQuantityUnitsChange} 
-                        value={totalQuantityUnits} 
-                        pluralUnitNames 
-                    />
-
-                </div>
-                <br/>
-                <button className="ui button primary">Calculate</button>
-            </form>
-        </div>
+        //     <Sidebar.Pusher dimmed={visible} style={{height: '45vh'}}>
+        //         <div >
+        //             <Button
+        //                 floated='right'
+        //                 onClick={() => setVisible(true)}
+        //             >
+        //                 Open Project Options
+        //             </Button>
+        //         </div>
+        //     </Sidebar.Pusher>
+        // </Sidebar.Pushable>
     )
+    // needs a way of setting project parameters
+    // needs an ingredient list
+    // needs to display a graph
+    // needs to show some controls for the model
+    
 }
 
 const mapStateToProps = (state) => ({
-    totalQuantity: state.totalQuantity.quantity,
-    totalQuantityUnits: state.totalQuantity.unit
 })
 
-export default connect(mapStateToProps, { totalQuantityUnitsChange, totalQuantityChange })(Calculator)
+export default connect(mapStateToProps)(Calculator)

@@ -67,7 +67,7 @@ export const getBaseCurrency = state => state.baseCurrency
 
 export const getBaseUnit = state => state.baseUnit
 
-export const getUnitTypes = state => state.unitType
+export const getUnitType = state => state.unitType
 
 /**
  * Function to retrun the appropriate unitTypes definitions object based on the value of config.unitType piece of state.
@@ -76,7 +76,7 @@ export const getUnitTypes = state => state.unitType
  * @returns {object} - Unit type definitions object.
  */
 export const getUnitDefinitions = createSelector(
-    getUnitTypes,
+    getUnitType,
     (unitType) => {
         switch (unitType) {
             case 'volume':
