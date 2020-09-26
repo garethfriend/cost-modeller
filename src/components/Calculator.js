@@ -1,41 +1,37 @@
 import React, { useState } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
+import Button from '@material-ui/core/Button'
+import Drawer from '@material-ui/core/Drawer'
 
-import * as selectors from '../redux/selectors'
+
 import ProjectOptions from './ProjectOptions'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
 
 const Calculator = () => {
     
     const [visible, setVisible] = useState(false)
     
-    
     return (
-        <></>
-        // <Sidebar.Pushable as={Segment} attached clearing>
-        //     <Sidebar
-        //         as={Segment}
-        //         animation='overlay'
-        //         icon='labeled'
-        //         onHide={() => setVisible(false)}
-        //         direction='top'
-        //         visible={visible}
-        //     >
-        //         <ProjectOptions />
-        //     </Sidebar>
+        <>
+            <Drawer anchor='top' open={visible} onClose={() => setVisible(false)}>
+                <div style={{padding: '15px'}}>
+                    <ProjectOptions />
+                    <IconButton onClick={() => setVisible(false)} style={{float: 'right'}}>
+                        <CloseIcon />
+                    </IconButton>
+                </div>
+                    
+            </Drawer>
+            <Grid container direction='column'>
+                <Grid item>
+                    <Button onClick={() => setVisible(true)} >project options</Button>
 
-        //     <Sidebar.Pusher dimmed={visible} style={{height: '45vh'}}>
-        //         <div >
-        //             <Button
-        //                 floated='right'
-        //                 onClick={() => setVisible(true)}
-        //             >
-        //                 Open Project Options
-        //             </Button>
-        //         </div>
-        //     </Sidebar.Pusher>
-        // </Sidebar.Pushable>
+                </Grid>
+            </Grid>
+        </>
     )
-    // needs a way of setting project parameters
     // needs an ingredient list
     // needs to display a graph
     // needs to show some controls for the model

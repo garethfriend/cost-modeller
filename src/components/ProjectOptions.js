@@ -1,69 +1,54 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 
 import CurrencyDropdown from './CurrencyDropdown'
-import * as selectors from '../redux/selectors'
+import { getBaseCurrency, getBaseUnit, getUnitType } from '../redux/selectors'
 import { changeBaseCurrency, changeUnitType, changeBaseUnits } from '../redux/config'
 import MeasureDropdown from './MeasureDropdown'
+import UnitTypeDropdown from './UnitTypeDropdown'
 
 const ProjectOptions = (props) => {
-    
-    const renderDropdowns = () => {
-        const {rates, baseCurrency, changeBaseCurrency, changeUnitType, changeBaseUnits, baseUnit} = props
-
-        return (
-            <></>
-            // <Grid stackable columns="equal">
-            //     <Grid.Row width={16}>
-            //         <Grid.Column width={5}>
-            //             <Label>Currency:</Label>
-            //             <CurrencyDropdown 
-            //                 className="ui fluid selection dropdown"
-            //                 rates={rates}
-            //                 selectedCurrency={baseCurrency}
-            //                 onChange={changeBaseCurrency}
-            //             />
-            //         </Grid.Column>
-            //         <Grid.Column>
-            //             <Label>Quantities by:</Label>
-            //             <select 
-            //                 className="ui fluid selection dropdown"
-            //                 onChange={(event) => changeUnitType(event.target.value)} 
-            //                 value={baseUnit}
-            //             >
-            //                 <option value="mass" >mass</option>
-            //                 <option value="volume" >volume</option>
-            //             </select>
-            //         </Grid.Column>
-            //         <Grid.Column>
-            //             <Label>Units:</Label>
-            //             <MeasureDropdown 
-            //                 className="ui fluid selection dropdown"
-            //                 pluralUnitNames
-            //                 onChange={changeBaseUnits}
-            //                 selectedUnit={baseUnit}
-            //             />
-            //         </Grid.Column>
-            //     </Grid.Row>
-            // </Grid>
-        )
-    }
-
-    const currencyLoader = () => <div className="ui active small text centered inline loader">Getting exchange rates...</div>
+    const { baseCurrency, unitType, baseUnit, changeBaseCurrency, changeUnitType, changeBaseUnits } = props
 
     return (
-        <form className="ui stackable two column grid">
-            {props.isLoading ? currencyLoader() : renderDropdowns()}                
-        </form>
+        <Grid item container direction='row' spacing={3} alignItems='center'>
+            <Grid item>
+                <Typography variant='h6'>Project Options:</Typography>
+            </Grid>
+            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+                <CurrencyDropdown
+                    id='baseCurrencySelect'
+                    label='base currency'
+                    value={baseCurrency}
+                    onChange={changeBaseCurrency}
+                />
+            </Grid>
+            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+                <UnitTypeDropdown
+                    id='unitTypeSelect'
+                    label='unit types'
+                    value={unitType}
+                    onChange={changeUnitType}
+                />
+            </Grid>
+            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+                <MeasureDropdown 
+                    id='baseUnitSelect'
+                    label='base units'
+                    value={baseUnit}
+                    onChange={changeBaseUnits}
+                />
+            </Grid>
+        </Grid>
     )
 }
 
 const mapStateToProps = (state) => ({ 
-        rates: selectors.getRates(state),
-        isLoading: selectors.getLoadingStatus(state),
-        baseCurrency: selectors.getBaseCurrency(state),
-        unitType: selectors.getUnitType(state),
-        baseUnit: selectors.getBaseUnit(state)
+        baseCurrency: getBaseCurrency(state),
+        unitType: getUnitType(state),
+        baseUnit: getBaseUnit(state)
 })
 
 export default connect(mapStateToProps, { changeBaseCurrency, changeUnitType, changeBaseUnits })(ProjectOptions)

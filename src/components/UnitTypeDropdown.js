@@ -1,24 +1,14 @@
 import React from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
-import codes from '../codes'
-import { getRates } from '../redux/selectors'
-
-const CurrencyDropdown = ({rates, id, label, value, onChange, className}) => {
+const UnitTypeDropdown = ({ value, id, label, onChange, className }) => {
     
-    const currencyOptions = () => {
-        const codeDescription = (code) => code in codes? codes[code] : code
-
-        return Object.keys(rates)
-            .map(code => <MenuItem key={code} value={code}>{`${codeDescription(code)} (${code})`}</MenuItem>)
-    }    
-
     const labelId = `${id}-label`
-
+    
     return (
         <FormControl variant="outlined" className={className} size='small' fullWidth>
             <InputLabel id={labelId}>{label}</InputLabel>
@@ -29,14 +19,11 @@ const CurrencyDropdown = ({rates, id, label, value, onChange, className}) => {
             onChange={event => onChange(event.target.value)}
             label={label}
             >
-                {currencyOptions()}
+                <MenuItem key={1} value='mass' >Mass</MenuItem>
+                <MenuItem key={2} value='volume' >Volume</MenuItem>
             </Select>
         </FormControl>
     )
 }
 
-const mapStateToProps = (state) => ({
-    rates: getRates(state),
-})
-    
-export default connect(mapStateToProps)(CurrencyDropdown)
+export default UnitTypeDropdown

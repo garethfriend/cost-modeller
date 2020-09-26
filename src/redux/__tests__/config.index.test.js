@@ -77,7 +77,7 @@ describe('handling actions', () => {
         const newState = configReducer(state, action)
 
         expect(newState).toHaveProperty('unitType', 'volume')
-        expect(newState).toHaveProperty('baseUnit', 'g')
+        expect(newState).toHaveProperty('baseUnit', 'ml')
         expect(newState).toHaveProperty('baseCurrency', 'USD')
 
     })

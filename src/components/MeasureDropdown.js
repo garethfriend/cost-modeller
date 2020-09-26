@@ -1,23 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import InputLabel from '@material-ui/core/InputLabel'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+
 import { getUnitDefinitions } from '../redux/selectors'
 
-
-const MeasureDropdown = ({ definitions, selectedUnit, onChange, pluralUnitNames, className }) => {
+const MeasureDropdown = ({ definitions, value, id, label, onChange, pluralUnitNames, className }) => {
     
     const measureOptions = definitions.map((measure, index) => {
         
         return(
-            <option key={index} value={measure.unit}>
-            {measure[pluralUnitNames ? 'plural' : 'singular']}
-            </option>
+            <MenuItem key={index} value={measure.unit}>
+            {`${measure[pluralUnitNames ? 'plural' : 'singular']} (${measure.unit})`}
+            </MenuItem>
         )
     })
+
+    const labelId = `${id}-label`
     
     return (
-        <select className={className} value={selectedUnit} onChange={event => onChange(event.target.value, definitions)}>
-            {measureOptions}
-        </select>
+        <FormControl variant="outlined" className={className} size='small' fullWidth>
+            <InputLabel id={labelId}>{label}</InputLabel>
+            <Select
+            labelId={labelId}
+            id={id}
+            value={value}
+            onChange={event => onChange(event.target.value)}
+            label={label}
+            >
+                {measureOptions}
+            </Select>
+        </FormControl>
     )
 }
 

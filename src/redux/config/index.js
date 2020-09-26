@@ -39,6 +39,8 @@ const baseUnitsReducer = (state = 'g', action) => {
     switch (action.type) {
         case BASE_UNITS_SELECTED:
             return action.payload
+        case UNIT_TYPES_SELECTED:
+            return action.payload === 'mass' ? 'g' : 'ml'
         default:
             return state
     }
