@@ -27,25 +27,25 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
+const menuItems = [
+    { menuTitle: 'Calculator', pageURL: '/' },
+    { menuTitle: 'How To', pageURL: '/howto' },
+    { menuTitle: 'About', pageURL: '/about' }
+]
+
+const tabNameToIndex = { 0: '/', 1: '/howto', 2: '/about' }
+const indexToTabName = { '/': 0, '/howto': 1, '/about': 2 }
+
 const AppHeader = props => {
     const { location, history } = props
     const path = location.pathname
-    
-    const menuItems = [
-        { menuTitle: 'Calculator', pageURL: '/' },
-        { menuTitle: 'How To', pageURL: '/howto' },
-        { menuTitle: 'About', pageURL: '/about' }
-    ]
-    
-    const tabNameToIndex = { 0: '/', 1: '/howto', 2: '/about' }
-    const indexToTabName = { '/': 0, '/howto': 1, '/about': 2 }
     
     const [anchorEl, setAnchorEl] = useState(null)
     const [selectedTab, setSelectedTab] = useState(indexToTabName[path])
     
     const classes = useStyles()
-    const open = Boolean(anchorEl)
     const theme = useTheme()
+    const open = Boolean(anchorEl)
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
     
     const handleMenu = event => {
@@ -75,7 +75,6 @@ const AppHeader = props => {
                     edge='start'
                     className={classes.menuButton}
                     color='inherit'
-                    aria-label='menu'
                     onClick={handleMenu}
                   >
                     <MenuIcon />

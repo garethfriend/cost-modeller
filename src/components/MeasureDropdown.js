@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { connect } from 'react-redux'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -9,14 +9,13 @@ import { getUnitDefinitions } from '../redux/selectors'
 
 const MeasureDropdown = ({ definitions, value, id, label, onChange, pluralUnitNames, className }) => {
     
-    const measureOptions = definitions.map((measure, index) => {
-        
-        return(
-            <MenuItem key={index} value={measure.unit}>
-            {`${measure[pluralUnitNames ? 'plural' : 'singular']} (${measure.unit})`}
-            </MenuItem>
-        )
-    })
+    const measureOptions = useMemo(() => definitions.map((measure, index) => {
+            return(
+                <MenuItem key={index} value={measure.unit}>
+                {`${measure[pluralUnitNames ? 'plural' : 'singular']} (${measure.unit})`}
+                </MenuItem>
+            )
+        }),[definitions, pluralUnitNames]) 
 
     const labelId = `${id}-label`
     

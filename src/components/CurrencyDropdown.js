@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import {connect} from 'react-redux'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -8,14 +8,14 @@ import Select from '@material-ui/core/Select'
 import codes from '../codes'
 import { getRates } from '../redux/selectors'
 
+const codeDescription = (code) => code in codes? codes[code] : code
+
 const CurrencyDropdown = ({rates, id, label, value, onChange, className}) => {
     
-    const currencyOptions = () => {
-        const codeDescription = (code) => code in codes? codes[code] : code
-
+    const currencyOptions = useMemo(() => {
         return Object.keys(rates)
             .map(code => <MenuItem key={code} value={code}>{`${codeDescription(code)} (${code})`}</MenuItem>)
-    }    
+    },[rates])
 
     const labelId = `${id}-label`
 
@@ -29,7 +29,7 @@ const CurrencyDropdown = ({rates, id, label, value, onChange, className}) => {
             onChange={event => onChange(event.target.value)}
             label={label}
             >
-                {currencyOptions()}
+                {currencyOptions}
             </Select>
         </FormControl>
     )

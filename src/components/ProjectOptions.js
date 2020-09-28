@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -9,15 +10,21 @@ import { changeBaseCurrency, changeUnitType, changeBaseUnits } from '../redux/co
 import MeasureDropdown from './MeasureDropdown'
 import UnitTypeDropdown from './UnitTypeDropdown'
 
+const useStyles = makeStyles(theme => ({
+    dropdownContainer: {
+        flexGrow: 1
+    }
+}))
+
 const ProjectOptions = (props) => {
     const { baseCurrency, unitType, baseUnit, changeBaseCurrency, changeUnitType, changeBaseUnits } = props
-
+    const classes = useStyles()
     return (
         <Grid item container direction='row' spacing={3} alignItems='center'>
             <Grid item>
                 <Typography variant='h6'>Project Options:</Typography>
             </Grid>
-            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+            <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
                 <CurrencyDropdown
                     id='baseCurrencySelect'
                     label='base currency'
@@ -25,7 +32,7 @@ const ProjectOptions = (props) => {
                     onChange={changeBaseCurrency}
                 />
             </Grid>
-            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+            <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
                 <UnitTypeDropdown
                     id='unitTypeSelect'
                     label='unit types'
@@ -33,7 +40,7 @@ const ProjectOptions = (props) => {
                     onChange={changeUnitType}
                 />
             </Grid>
-            <Grid item style={{flexGrow: 1}} xs={12} md='auto'>
+            <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
                 <MeasureDropdown 
                     id='baseUnitSelect'
                     label='base units'

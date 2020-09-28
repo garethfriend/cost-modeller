@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Router, Route, Switch } from 'react-router-dom'
 import {connect} from 'react-redux'
-import { Grid } from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
 
 import Footer from './Footer'
 import AppHeader from './AppHeader'
