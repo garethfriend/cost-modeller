@@ -177,6 +177,7 @@ export {
     getBaseCurrency,
     getBaseCurrencyExchangeRate,
     getCollectionIngredients,  
+    getIngredients,
     getIngredientsTotalQuantity,
     getCollectionTotalQuantity,
     getCollectionPercentOfTotal,
