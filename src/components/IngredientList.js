@@ -1,21 +1,32 @@
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import Divider from '@material-ui/core/Divider'
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getIngredients } from '../redux/selectors'
+import { getBaseUnit, getIngredients } from '../redux/selectors'
 
-const IngredientList = () => {
+const IngredientList = ({ ingredients, baseUnit }) => {
 
-    const renderIngredientsList
+    const renderedIngredientsList = ingredients.map(ingredient => {
+        return (
+            <>
+                <Divider key={ingredient.id}/>
+                <ListItem key={ingredient.id}>{`${ingredient.ingredientName} ${ingredient.quantity}${baseUnit}`}</ListItem>
+            </>
+        )
+    })
 
     return (
-        <div>
-            ingredients
-        </div>
+        <List>
+            {renderedIngredientsList}
+        </List>
     )
 }
 
 const mapStateToProps = (state) => ({
-    
+    ingredients: getIngredients(state),
+    baseUnit: getBaseUnit(state)
 })
 
 export default connect(mapStateToProps)(IngredientList)

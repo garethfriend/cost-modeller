@@ -12,6 +12,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import ProjectOptions from './ProjectOptions'
 import { getBaseCurrency, getBaseUnit } from '../redux/selectors'
+import IngredientList from './IngredientList'
 
 const useStyles = makeStyles(theme => ({
     drawerContainer: { 
@@ -22,6 +23,9 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         padding: 0
+    },
+    graph: {
+        backgroundColor: 'gray'
     }
 }))
 
@@ -63,6 +67,14 @@ const Calculator = props => {
                                 <AddCircleOutlineIcon />
                             </IconButton>
                         </Tooltip>
+                    </Grid>
+                </Grid>
+                <Grid item container spacing={3}>
+                    <Grid item xs={12} md={4}>
+                        <IngredientList />
+                    </Grid>
+                    <Grid item xs={12} md={8} className={classes.graph}>
+                        graph
                     </Grid>
                 </Grid>
             </Grid>
