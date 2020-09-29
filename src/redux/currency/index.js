@@ -1,18 +1,15 @@
 import { 
     FETCH_CURRENCIES_REQUEST,
     FETCH_CURRENCIES_SUCCESS,
-    FETCH_CURRENCIES_ERROR, 
-    CURRENCY_SELECTED 
+    FETCH_CURRENCIES_ERROR 
 } from '../types'
 import { combineReducers } from 'redux'
 import axios from 'axios'
+import codes from '../../codes'
 
-// API
+// CONSTANTS
 
-const currency = axios.create({
-    baseURL: 'https://open.exchangerate-api.com/v6/latest'
-    // baseURL: 'https://v6.exchangerate-api.com/v6/YOUR-API-KEY/latest/USD'
-})
+const INITIAL_RATES = Object.fromEntries(Object.keys(codes).map((code) => [code, 1])) // default all exchange rates to 1 if not replaced by API data
 
 // ACTIONS
 
@@ -35,7 +32,7 @@ const loadRatesSuccess = (rates) => ({
 const loadRatesError = (error) => ({
     type: FETCH_CURRENCIES_ERROR,
     payload:{
-        rates: {USD: 1},
+        rates: INITIAL_RATES,
         isLoading: false,
         error: error
     }
@@ -45,7 +42,7 @@ export const fetchCurrencies = () => {
     return async function(dispatch) {
         dispatch(loadRatesRequest())
         try{
-            let response = (await currency.get()).data
+            let response = (await axios.get('https://open.exchangerate-api.com/v6/latest')).data
             if(response.result === "success"){
                 dispatch(loadRatesSuccess(response.rates))
             }else{
@@ -57,21 +54,9 @@ export const fetchCurrencies = () => {
     }
 }
 
-export const selectBaseCurrency = (code, rates) => ({
-    type: CURRENCY_SELECTED,
-    payload: {
-        code: code,
-        baseRate: rates[code]
-    }
-})
-
 // REDUCERS
 
-const INITIAL_STATE = {}
-
-
-
-const ratesReducer = (currency = INITIAL_STATE, action) => {
+const ratesReducer = (currency = INITIAL_RATES, action) => {
     switch (action.type) {
         case FETCH_CURRENCIES_SUCCESS:
         case FETCH_CURRENCIES_ERROR:
@@ -92,21 +77,16 @@ const loadingReducer = (isLoading = true, action) => {
     }
 }
 
-const INITIAL_CURRENCY = {
-    code: 'USD',
-    baseRate: 1
-}
-
-const selectedCurrencyReducer = (baseCurrency = INITIAL_CURRENCY, action) => {
-    if (action.type === CURRENCY_SELECTED) {
-        return action.payload
-    }
-
-    return baseCurrency
-}
-
-export const currencyReducer = combineReducers({
+const currencyReducer = combineReducers({
     rates: ratesReducer,
     isLoading: loadingReducer,
-    baseCurrency: selectedCurrencyReducer,
 })
+
+export default currencyReducer
+
+// SELECTORS
+
+export const getRates = state => state.rates
+export const getLoadingStatus = state => state.isLoading
+
+

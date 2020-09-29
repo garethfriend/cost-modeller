@@ -1,5 +1,4 @@
-let state = {
-    // exchange rates to USD obtained from API once on loading
+export default {
     currency: {
         rates: {
             USD: 1,
@@ -59,41 +58,72 @@ let state = {
     },
     errors: null,
     config: {
-        // two options 'mass' or 'volume' is used to render the options in all the dropdowns across the app.
         unitType: 'mass',
-        // output currency for the calculations, used inside all ingredient cost normalizations.
         baseCurrency: 'CAD',
         baseUnit: 'g',
     },
-    // model is based on rule of mixtures equation: (fraction*costPerUnit) + (fraction*costPerUnit) + (fraction*costPerUnit) = cost
-    // three sets of bracketed multiplications come from three collections:
     collections: {
-        // this is what we are modelling the changes to
         variable: ['945-6647-9977'],
-        // this portion's fraction does not change - no matter what else we mess with ingredients in here are fixed quantity
         fixed: ['154-6876-8443', '249-8388-8355', '033-0058-1111'],
-        // this portion grows and shrinks to accomodate the changes in the variable quantity
         balance: ['158-2987-3546', '249-3888-8999'],
     },
     ingredients: [{
-        id: '154-6876-8443',
-        ingredientName: 'silicone',
-        // properties combine as: {cost}{pricedInCurrency} per {numberOfunits}{units}
+        id: '033-0058-1111',
+        ingredientName: 'Water',
         pricedInCurrency: 'GBP',
-        // could replace next three with cost per baseUnit but might be better to retain user inputs if persisting
+        cost: 1,
+        numberOfUnits: 10,
+        unit: 'kg',
+        quantity: 400,
+        editing: false
+    },
+    {
+        id: '154-6876-8443',
+        ingredientName: 'Coconut Oil',
+        pricedInCurrency: 'EUR',
         cost: 10,
         numberOfUnits: 15,
         unit: 'kg',
-        // quantity in baseUnits 
-        quantity: 27,
-        // calculated: (baseCurrencyRate/priceInCurrencyRate)*mass(cost/numberOfUnits).from(unit).to(totalQuantity.baseUnit).value
-        normalizedCost: 0.0011548553, // CAD/g
-        // toggle create/edit modal
-        editing: true
+        quantity: 100,
+        editing: false
     },
     {
-        etc...
+        id: '158-2987-3546',
+        ingredientName: 'Silicone',
+        pricedInCurrency: 'USD',
+        cost: 106,
+        numberOfUnits: 150,
+        unit: 'kg',
+        quantity: 24,
+        editing: false
+    },
+    {
+        id: '249-3888-8999',
+        ingredientName: 'Pigment A',
+        pricedInCurrency: 'GBP',
+        cost: 100,
+        numberOfUnits: 134,
+        unit: 'g',
+        quantity: 0.023,
+        editing: false
+    },{
+        id: '249-8388-8355',
+        ingredientName: 'Bulking Agent 23',
+        pricedInCurrency: 'USD',
+        cost: 10,
+        numberOfUnits: 75,
+        unit: 'kg',
+        quantity: 240,
+        editing: false
+    },
+    {
+        id: '945-6647-9977',
+        ingredientName: 'Active Ingredient',
+        pricedInCurrency: 'CAD',
+        cost: 1000,
+        numberOfUnits: 150,
+        unit: 'g',
+        quantity: 0.3,
+        editing: true
     }]
 }
-
-// selectors

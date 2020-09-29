@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux'
-import { currencyReducer } from './currency'
-import { unitsReducer } from './units'
-import { errorsReducer } from './error'
-import { totalQuantityReducer } from './totalQuantity'
-import { ingredientReducer } from './ingredient'
+import currencyReducer from './currency'
+import configReducer from './config'
+import errorsReducer from './error'
+import collectionsReducer from './collections'
+import ingredientReducer from './ingredient'
+
 
 
 export default combineReducers({
     currency: currencyReducer,
-    units: unitsReducer,
+    config: configReducer,
     errors: errorsReducer,
-    totalQuantity: totalQuantityReducer,
+    collections: collectionsReducer,
     ingredients: ingredientReducer
 })
+

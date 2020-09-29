@@ -1,13 +1,18 @@
-import { FETCH_CURRENCIES_ERROR } from "../types"
+import { FETCH_CURRENCIES_ERROR, FETCH_CURRENCIES_SUCCESS } from "../types"
 
 // REDUCERS
 
 const INITIAL_ERROR = null
    
-export const errorsReducer = (state = INITIAL_ERROR, action) => {
-    if (action.type === FETCH_CURRENCIES_ERROR) {
-
-        return action.payload.error
-    }
-        return state;
+const errorsReducer = (state = INITIAL_ERROR, action) => {
+    switch (action.type) {
+        case FETCH_CURRENCIES_ERROR:
+            return action.payload.error
+        case FETCH_CURRENCIES_SUCCESS:
+            return null
+        default:
+            return state
+        }
 }
+
+export default errorsReducer

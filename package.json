@@ -1,12 +1,16 @@
 {
+  "homepage": "http://garethfriend.github.io/cost-modeller",
   "name": "cost-modeller",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
+    "re-reselect": "^4.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
@@ -14,12 +18,14 @@
     "react-scripts": "^3.4.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "semantic-ui-css": "^2.4.1",
-    "semantic-ui-react": "^1.1.1",
     "units-converter": "^1.0.3",
     "uuid": "^8.3.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -39,5 +45,12 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.4",
+    "gh-pages": "^3.1.0",
+    "moxios": "^0.4.0",
+    "redux-mock-store": "^1.5.4"
   }
 }

@@ -1,55 +1,82 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import MeasureDropdown from './MeasureDropdown'
-import { totalQuantityUnitsChange, totalQuantityChange } from '../redux/totalQuantity'
+import React, { useState } from 'react'
+import { connect } from 'react-redux'
+import Drawer from '@material-ui/core/Drawer'
+import Grid from '@material-ui/core/Grid'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import SettingsIcon from '@material-ui/icons/Settings'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
+import { makeStyles } from '@material-ui/core/styles'
 
-const Calculator = (props) => {
-    const { totalQuantity, totalQuantityUnits, totalQuantityUnitsChange, totalQuantityChange } = props
-    
+import ProjectOptions from './ProjectOptions'
+import { getBaseCurrency, getBaseUnit } from '../redux/selectors'
 
+const useStyles = makeStyles(theme => ({
+    drawerContainer: { 
+        padding: theme.spacing(2) 
+    },
+    container: {
+        padding: theme.spacing(2) 
+    },
+    iconButton: {
+        padding: 0
+    }
+}))
+
+const Calculator = props => {
+    const { baseUnit, baseCurrency } = props
+    const [visible, setVisible] = useState(false)
+    const classes = useStyles()
     return (
-        <div className="ui segment">
-            <h2>Ingredients</h2>
-            <div className="ui three column stackable grid">
-                <div className="column">
-                    <h3>Subject</h3>
+        <>
+            <Drawer anchor='top' open={visible} onClose={() => setVisible(false)}>
+                <div className={classes.drawerContainer}>
+                    <ProjectOptions />
+                    <Tooltip title='Close options panel'>
+                        <IconButton onClick={() => setVisible(false)} style={{float: 'right'}}>
+                            <CloseIcon />
+                        </IconButton>
+                    </Tooltip>
                 </div>
-                <div className="ui vertical divider"></div>
-                <div className="column">
-                    <h3>Flex</h3>
-                </div>
-                <div className="column">
-                    <h3>Fixed</h3>
-                </div>
-            </div>
-            <form>
-                <div className="">
-                    <div className="">Total quantity:</div>
-                    <input 
-                        className="ui input"
-                        type="number"
-                        onChange={event => totalQuantityChange(event.target.value)} 
-                        value={totalQuantity} 
-                    />
-
-                    <MeasureDropdown 
-                        className="ui basic select"
-                        onChange={totalQuantityUnitsChange} 
-                        value={totalQuantityUnits} 
-                        pluralUnitNames 
-                    />
-
-                </div>
-                <br/>
-                <button className="ui button primary">Calculate</button>
-            </form>
-        </div>
+                    
+            </Drawer>
+            <Grid container direction='column' className={classes.container}>
+                <Grid item container direction='row' alignItems='flex-start' alignContent='center' spacing={3}>
+                    <Grid item>
+                        <Typography variant='body1'>Currency: {baseCurrency}</Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant='body1'>Units: {baseUnit}</Typography>
+                    </Grid>
+                    <Grid item >
+                        <Tooltip title='Project options'>
+                            <IconButton className={classes.iconButton} onClick={() => setVisible(true)} >
+                                <SettingsIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                    <Grid item >
+                        <Tooltip title='Add new ingredient to project'>
+                            <IconButton className={classes.iconButton}>
+                                <AddCircleOutlineIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </>
     )
+    // needs an ingredient list
+    // needs to display a graph
+    // needs to show some controls for the model
+    
 }
 
 const mapStateToProps = (state) => ({
-    totalQuantity: state.totalQuantity.quantity,
-    totalQuantityUnits: state.totalQuantity.unit
+    baseUnit: getBaseUnit(state),
+    baseCurrency: getBaseCurrency(state)
 })
 
-export default connect(mapStateToProps, { totalQuantityUnitsChange, totalQuantityChange })(Calculator)
+export default connect(mapStateToProps)(Calculator)
