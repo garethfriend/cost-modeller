@@ -19,7 +19,6 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
-    "semantic-ui-css": "^2.4.1",
     "units-converter": "^1.0.3",
     "uuid": "^8.3.0"
   },
