@@ -18,7 +18,7 @@ const App = ({ fetchCurrencies }) => {
     }, [fetchCurrencies])
 
     return (
-        <Router history={history} >
+        <Router history={history} basename={process.env.PUBLIC_URL}>
             <Grid container direction='column' >
                 <Grid item>
                     <AppHeader />
