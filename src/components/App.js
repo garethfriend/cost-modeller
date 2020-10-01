@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Router, Route, Switch } from 'react-router-dom'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import {connect} from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 
@@ -18,7 +18,7 @@ const App = ({ fetchCurrencies }) => {
     }, [fetchCurrencies])
 
     return (
-        <Router history={history} basename={process.env.PUBLIC_URL}>
+        <Router history={history}>
             <Grid container direction='column' >
                 <Grid item>
                     <AppHeader />
