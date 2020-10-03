@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const IngredientList = ({ ingredients, baseUnit, deleteIngredient }) => {
+const IngredientList = ({ ingredients, baseUnit, deleteIngredient, editCallback }) => {
     const classes = useStyles()
 
     const renderedIngredientsList = ingredients.map(ingredient => {
@@ -44,7 +44,12 @@ const IngredientList = ({ ingredients, baseUnit, deleteIngredient }) => {
                 <Typography variant='body2' className={classes.ingQuant}>{`${ingredient.quantity}${baseUnit}`}</Typography>
                 
                 <Tooltip title='Edit ingredient'>
-                    <IconButton className={classes.editButton}><EditIcon /></IconButton>
+                    <IconButton 
+                        className={classes.editButton}
+                        onClick={() => editCallback(ingredient.id)}
+                    >
+                        <EditIcon />
+                    </IconButton>
                 </Tooltip>
                 <Tooltip title='Delete ingredient'>
                     <IconButton 

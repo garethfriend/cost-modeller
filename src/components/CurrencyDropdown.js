@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import {connect} from 'react-redux'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -12,10 +12,8 @@ const codeDescription = (code) => code in codes? codes[code] : code
 
 const CurrencyDropdown = ({rates, id, label, value, onChange, className}) => {
     
-    const currencyOptions = useMemo(() => {
-        return Object.keys(rates)
+    const currencyOptions = Object.keys(rates)
             .map(code => <MenuItem key={code} value={code}>{`${codeDescription(code)} (${code})`}</MenuItem>)
-    },[rates])
 
     const labelId = `${id}-label`
 

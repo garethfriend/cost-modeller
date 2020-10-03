@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
+import CloseIcon from '@material-ui/icons/Close'
+import Dialog from '@material-ui/core/Dialog'
+import Divider from '@material-ui/core/Divider'
 import Drawer from '@material-ui/core/Drawer'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
-import CloseIcon from '@material-ui/icons/Close'
 import SettingsIcon from '@material-ui/icons/Settings'
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,9 +15,12 @@ import { makeStyles } from '@material-ui/core/styles'
 import ProjectOptions from './ProjectOptions'
 import { getBaseCurrency, getBaseUnit } from '../redux/selectors'
 import IngredientList from './IngredientList'
-import Divider from '@material-ui/core/Divider'
+import IngredientForm from './IngredientForm'
 
 const useStyles = makeStyles(theme => ({
+    dialogContainer: {
+        padding: theme.spacing(2)
+    },
     drawerContainer: { 
         padding: theme.spacing(2) 
     },
@@ -40,21 +45,39 @@ const useStyles = makeStyles(theme => ({
 
 const Calculator = props => {
     const { baseUnit, baseCurrency } = props
-    const [visible, setVisible] = useState(false)
+    const [optionsVisible, setOptionsVisible] = useState(false)
+    const [formVisible, setFormVisible] = useState(false)
+    const [selectedIngredientId, setSelectedIngredientId] = useState(null)
+
+    const handleFormOpen = (id) => {
+        setSelectedIngredientId(id)
+        setFormVisible(true)
+    }
+
+    const handleFormClose = () => {
+        setFormVisible(false)
+        setSelectedIngredientId(null)
+    }
+
     const classes = useStyles()
     return (
         <>
-            <Drawer anchor='top' open={visible} onClose={() => setVisible(false)}>
+            <Drawer anchor='top' open={optionsVisible} onClose={() => setOptionsVisible(false)}>
                 <div className={classes.drawerContainer}>
                     <ProjectOptions />
                     <Tooltip title='Close options panel'>
-                        <IconButton onClick={() => setVisible(false)} style={{float: 'right'}}>
+                        <IconButton onClick={() => setOptionsVisible(false)} style={{float: 'right'}}>
                             <CloseIcon />
                         </IconButton>
                     </Tooltip>
                 </div>
                     
             </Drawer>
+            <Dialog open={formVisible} onClose={handleFormClose}>
+                <div className={classes.dialogContainer}>
+                    <IngredientForm id={selectedIngredientId} />
+                </div>
+            </Dialog>
             <Grid container direction='column' className={classes.container}>
                 <Grid item container direction='row' alignItems='flex-start' alignContent='center' spacing={2}>
                     <Grid item>
@@ -65,14 +88,14 @@ const Calculator = props => {
                     </Grid>
                     <Grid item >
                         <Tooltip title='Project options'>
-                            <IconButton className={classes.iconButton} onClick={() => setVisible(true)} >
+                            <IconButton className={classes.iconButton} onClick={() => setOptionsVisible(true)} >
                                 <SettingsIcon />
                             </IconButton>
                         </Tooltip>
                     </Grid>
                     <Grid item>
                         <Tooltip title='Add new ingredient to project'>
-                            <IconButton className={classes.iconButton}>
+                            <IconButton className={classes.iconButton} onClick={() => handleFormOpen(null)}>
                                 <AddCircleOutlineIcon />
                             </IconButton>
                         </Tooltip>
@@ -81,10 +104,12 @@ const Calculator = props => {
                 <Grid item container spacing={2}>
                     <Grid item xs={12} md={4} className={classes.list}>
                         <Divider className={classes.topDivider}/>
-                        <IngredientList />
+                        <IngredientList editCallback={handleFormOpen} />
                     </Grid>
                     <Grid item xs={12} md={8} className={classes.graph}>
                         graph
+                    </Grid>
+                    <Grid item>
                     </Grid>
                 </Grid>
             </Grid>

@@ -1,5 +1,6 @@
 import {
     CREATE_INGREDIENT,
+    EDIT_INGREDIENT,
     DELETE_INGREDIENT,
     ASSIGN_INGREDIENT
 } from '../types'
@@ -38,6 +39,8 @@ const createCollectionReducer = collectionName => (state = [], action) => {
         case ASSIGN_INGREDIENT:
             return collectionAssign(state, collectionName, action)
         case CREATE_INGREDIENT:
+            return action.payload.collection === collectionName ? [...state, action.payload.id] : state
+        case EDIT_INGREDIENT:
             return action.payload.collection === collectionName ? [...state, action.payload.id] : state
         case DELETE_INGREDIENT:
             return state.filter(id => !action.payload.includes(id))

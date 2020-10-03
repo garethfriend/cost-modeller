@@ -45,6 +45,12 @@ const getCollection = (state, collection) => state.collections[collection]
 // INGREDIENT SELECTORS
 const getIngredients = state => state.ingredients
 
+const getIngredient = (state, id) => state.ingredients.find(ingredient => ingredient.id === id)
+
+const getIngredientCollection = (state, id) => {
+    return Object.keys(state.collections).find(collection => state.collections[collection].includes(id))
+}
+
 /**
  * Function to return all ingredient objects in a collection.
  * @function getCollectionIngredients
@@ -178,6 +184,8 @@ export {
     getBaseCurrencyExchangeRate,
     getCollectionIngredients,  
     getIngredients,
+    getIngredient,
+    getIngredientCollection,
     getIngredientsTotalQuantity,
     getCollectionTotalQuantity,
     getCollectionPercentOfTotal,

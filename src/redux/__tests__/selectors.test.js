@@ -1,6 +1,13 @@
 import state from '../mockState'
 import * as selectors from '../selectors'
 
+describe('getIngredientCollection', () =>{
+    it('should return the correct collection for the ingredient id', () => {
+        const newState = selectors.getIngredientCollection(state, '249-3888-8999')
+        expect(newState).toBe('balance')
+    })
+})
+
 describe('getCurrencyExchangeRate', () => {
   it('should return the correct exchange rate', () => {
       const newState = selectors.getBaseCurrencyExchangeRate(state, 'GBP')
