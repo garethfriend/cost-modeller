@@ -19,16 +19,16 @@ import CurrencyDropdown from './CurrencyDropdown'
 import MeasureDropdown from './MeasureDropdown'
 
 
-const IngredientForm = ({ id, ingredient, collection, baseCurrency, baseUnit }) => {
-    const { register, handleSubmit, setValue, control } = useForm()
+const IngredientForm = ({ id, ingredient, collection, baseCurrency, baseUnit, editIngredient, createIngredient, closeCallback }) => {
+    const { register, handleSubmit, control } = useForm()
     
     const onSubmit = (data) => {
         if (id) {
-            // editIngredient(data)
-            console.log(id, data)
+            editIngredient(id, data)
+            closeCallback(false)
         } else {
-            // createIngredient(data)
-            console.log('no id', data)
+            createIngredient(data)
+            closeCallback(false)
         }
     }
 
@@ -128,4 +128,4 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-export default connect(mapStateToProps)(IngredientForm)
+export default connect(mapStateToProps, { editIngredient, createIngredient })(IngredientForm)

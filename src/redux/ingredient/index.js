@@ -10,20 +10,18 @@ import {
 
 // ACTIONS
 
-export const createIngredient = (collection, data) => ({
+export const createIngredient = (data) => ({
     type: CREATE_INGREDIENT,
     payload: {
         id: uuidv4(),
-        collection: collection,
         data: data
     }
 })
 
-export const editIngredient = (id, collection, data) => ({
+export const editIngredient = (id, data) => ({
     type: EDIT_INGREDIENT,
     payload: {
         id: id,
-        collection: collection,
         data: data
     }
 })
@@ -53,7 +51,9 @@ const ingredientReducer = (state = [], action) => {
         case CREATE_INGREDIENT:
             return [...state, mapIngredientProps(action)]
         case EDIT_INGREDIENT:
-            return [...state, mapIngredientProps(action)]
+            return state.map((ingredient) => {
+                return ingredient.id !== action.payload.id ? ingredient : mapIngredientProps(action)
+            })
         case DELETE_INGREDIENT:
             return state.filter(ingredient => !action.payload.includes(ingredient.id))
         default:

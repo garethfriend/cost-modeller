@@ -56,7 +56,6 @@ const Calculator = props => {
 
     const handleFormClose = () => {
         setFormVisible(false)
-        setSelectedIngredientId(null)
     }
 
     const classes = useStyles()
@@ -73,9 +72,9 @@ const Calculator = props => {
                 </div>
                     
             </Drawer>
-            <Dialog open={formVisible} onClose={handleFormClose}>
+            <Dialog open={formVisible} onClose={() => setFormVisible(false)}>
                 <div className={classes.dialogContainer}>
-                    <IngredientForm id={selectedIngredientId} />
+                    <IngredientForm id={selectedIngredientId} closeCallback={setFormVisible} />
                 </div>
             </Dialog>
             <Grid container direction='column' className={classes.container}>
@@ -115,7 +114,6 @@ const Calculator = props => {
             </Grid>
         </>
     )
-    // needs an ingredient list
     // needs to display a graph
     // needs to show some controls for the model
     

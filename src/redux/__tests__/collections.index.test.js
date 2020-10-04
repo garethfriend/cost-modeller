@@ -156,7 +156,9 @@ describe('handling actions', () => {
             type: CREATE_INGREDIENT,
             payload: {
                 id: 'NEW ID',
-                collection: 'variable'
+                data: {
+                    collection: 'variable'
+                }
             }
         }
         const newStateA = collectionsReducer(initialState, actionA)
