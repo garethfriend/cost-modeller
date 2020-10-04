@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0aaa88a716a8640d3918e6a8c744254a",
+    "revision": "2b1582730b09ee2ab34f399b85b50a54",
     "url": "/cost-modeller/index.html"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cost-modeller/static/js/2.841851e1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "cebcbea2ecc4f90f4443",
-    "url": "/cost-modeller/static/js/main.e8b8e68d.chunk.js"
+    "revision": "971d52389706518c8d77",
+    "url": "/cost-modeller/static/js/main.7f9e03a7.chunk.js"
   },
   {
     "revision": "9bb385d593b419a19dd8",
