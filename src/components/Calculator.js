@@ -54,10 +54,6 @@ const Calculator = props => {
         setFormVisible(true)
     }
 
-    const handleFormClose = () => {
-        setFormVisible(false)
-    }
-
     const classes = useStyles()
     return (
         <>
