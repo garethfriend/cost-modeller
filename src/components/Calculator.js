@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline'
-import CloseIcon from '@material-ui/icons/Close'
 import Dialog from '@material-ui/core/Dialog'
 import Divider from '@material-ui/core/Divider'
-import Drawer from '@material-ui/core/Drawer'
 import Grid from '@material-ui/core/Grid'
 import IconButton from '@material-ui/core/IconButton'
 import SettingsIcon from '@material-ui/icons/Settings'
@@ -20,9 +18,6 @@ import IngredientForm from './IngredientForm'
 const useStyles = makeStyles(theme => ({
     dialogContainer: {
         padding: theme.spacing(2)
-    },
-    drawerContainer: { 
-        padding: theme.spacing(2) 
     },
     container: {
         padding: theme.spacing(2) 
@@ -57,17 +52,7 @@ const Calculator = props => {
     const classes = useStyles()
     return (
         <>
-            <Drawer anchor='top' open={optionsVisible} onClose={() => setOptionsVisible(false)}>
-                <div className={classes.drawerContainer}>
-                    <ProjectOptions />
-                    <Tooltip title='Close options panel'>
-                        <IconButton onClick={() => setOptionsVisible(false)} style={{float: 'right'}}>
-                            <CloseIcon />
-                        </IconButton>
-                    </Tooltip>
-                </div>
-                    
-            </Drawer>
+            <ProjectOptions open={optionsVisible} closeCallback={setOptionsVisible} />
             <Dialog open={formVisible} onClose={() => setFormVisible(false)}>
                 <div className={classes.dialogContainer}>
                     <IngredientForm id={selectedIngredientId} closeCallback={setFormVisible} />
