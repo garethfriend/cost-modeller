@@ -28,10 +28,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const ProjectOptions = (props) => {
-    const { baseCurrency, unitType, baseUnit, changeBaseCurrency, changeUnitType, changeBaseUnits, open, closeCallback } = props
+    const { baseCurrency, unitType, baseUnit, changeBaseCurrency, changeUnitType, changeBaseUnits, open, handleOptionsClose } = props
     const classes = useStyles()
     return (
-        <Drawer anchor='top' open={open} onClose={() => closeCallback(false)}>
+        <Drawer anchor='top' open={open} onClose={() => handleOptionsClose(false)}>
             <div className={classes.drawerContainer}>
                 <Grid item container direction='row' spacing={3} alignItems='center'>
                     <Grid item>
@@ -63,7 +63,7 @@ const ProjectOptions = (props) => {
                     </Grid>
                 </Grid>
                 <Tooltip title='Close options panel'>
-                    <IconButton onClick={() => closeCallback(false)} className={classes.buttonFloat}>
+                    <IconButton onClick={() => handleOptionsClose(false)} className={classes.buttonFloat}>
                         <CloseIcon />
                     </IconButton>
                 </Tooltip>
