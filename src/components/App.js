@@ -20,9 +20,7 @@ const App = ({ fetchCurrencies }) => {
     return (
         <Router history={history}>
             <Grid container direction='column' >
-                <Grid item>
-                    <AppHeader />
-                </Grid>
+                <AppHeader />
                 <Grid item>
                     <Switch>
                         <Route path="/" exact component={Calculator} />
@@ -30,9 +28,7 @@ const App = ({ fetchCurrencies }) => {
                         <Route path="/about" component={About} />
                     </Switch>
                 </Grid>
-                <Grid item>
-                    <Footer />
-                </Grid>
+                <Footer />
             </Grid>
         </Router>
     )
