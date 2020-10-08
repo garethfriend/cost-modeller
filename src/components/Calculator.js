@@ -21,7 +21,7 @@ const Calculator = props => {
     const [formVisible, setFormVisible] = useState(false)
     const [selectedIngredientId, setSelectedIngredientId] = useState(null)
 
-    const handleFormOpen = (id=null) => {
+    const handleFormOpen = (id) => {
         setSelectedIngredientId(id)
         setFormVisible(true)
     }

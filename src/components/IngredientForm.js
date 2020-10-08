@@ -3,18 +3,19 @@ import { connect } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
-import Select from '@material-ui/core/Select'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
-import MenuItem from '@material-ui/core/MenuItem'
-import InputLabel from '@material-ui/core/InputLabel'
+import Typography from '@material-ui/core/Typography'
 import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
-
+import Slide from '@material-ui/core/Slide'
+import FormLabel from '@material-ui/core/FormLabel'
 
 import { 
     getBaseCurrency, 
@@ -27,14 +28,25 @@ import CurrencyDropdown from './CurrencyDropdown'
 import MeasureDropdown from './MeasureDropdown'
 
 const useStyles = makeStyles(theme => ({
-    dialogContainer: {
-        padding: theme.spacing(2)
+    radioGroup: {
+        flexWrap: false,
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    },
+    radio: {
+        // marginRight: 'auto'
+
     }
 }))
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction='right' ref={ref} {...props} />;
+})
 
 const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUnit, editIngredient, createIngredient, handleFormClose }) => {
     const { register, handleSubmit, control, errors } = useForm()
     const classes = useStyles()
+    
     const onSubmit = (data) => {
         if (id) {
             editIngredient(id, data)
@@ -47,166 +59,193 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
 
     const defaultValues = {
         ingredientName: ingredient ? ingredient.ingredientName : '',
-        cost: ingredient ? ingredient.cost : 0,
+        cost: ingredient ? ingredient.cost : '',
         pricedInCurrency: ingredient ? ingredient.pricedInCurrency : baseCurrency,
-        numberOfUnits: ingredient ? ingredient.numberOfUnits : 1,
+        numberOfUnits: ingredient ? ingredient.numberOfUnits : '',
         unit: ingredient ? ingredient.unit : baseUnit,
-        quantity: ingredient ? ingredient.quantity : 1,
+        quantity: ingredient ? ingredient.quantity : '',
         collection: collection
     }
 
     const rules = {
         ingredientName: {
-            required: true
+            required: {
+                value: true,
+                message: 'An ingredient name is required'
+            } 
         },
         cost: {
-            required: true,
-            validate: value => value >= 0
+            required: {
+                value: true,
+                message: 'Cost is required'
+            },
         },
         numberOfUnits: {
-            required: true,
-            validate: value => value > 0
+            required: {
+                value: true,
+                message: 'The number of units is required'
+            },
+            validate: value => value > 0 || 'A number greater than 0 is required'
         },
         quantity: {
-            required: true,
-            validate: value => value > 0
+            required: {
+                value: true,
+                message: 'A quantity is required'
+            },
+            validate: value => value > 0 || 'A number greater than 0 is required'
         },
     }
-    
+
     return (
-        <Dialog open={open} onClose={() => handleFormClose(false)}>
-            <div className={classes.dialogContainer}>
-                <form onSubmit={handleSubmit((data) => onSubmit(data))}>
-                    <Grid container direction='column' spacing={3}>
-                        <Grid item>
-                            <TextField 
-                                inputRef={register(rules.ingredientName)} 
-                                name='ingredientName'
-                                label='Ingredient name' 
-                                defaultValue={defaultValues.ingredientName}
-                                variant='outlined' 
-                                size='small' 
-                                fullWidth
-                            />
-                            {errors.ingredientName && 'An ingredient name is required'}
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                inputRef={register(rules.cost)} 
-                                name='cost'
-                                label='Cost' 
-                                defaultValue={defaultValues.cost}
-                                type='number' 
-                                variant='outlined' 
-                                inputProps={{ min: "0", step: "0.01" }}
-                                size='small'
-                                fullWidth 
-                            />                
-                            {errors.cost && 'A cost is required'}         
-                        </Grid>
-                        <Grid item>
-                            <Controller
-                                as={CurrencyDropdown}
-                                id='currency' 
-                                name='pricedInCurrency' 
-                                label='In currency' 
-                                defaultValue={defaultValues.pricedInCurrency}
-                                className=''
-                                control={control}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                inputRef={register(rules.numberOfUnits)} 
-                                name='numberOfUnits' 
-                                label='Per number'
-                                defaultValue={defaultValues.numberOfUnits}
-                                type='number' 
-                                variant='outlined' 
-                                size='small'
-                                fullWidth 
-                            />
-                            {errors.numberOfUnits && 'A number of units is required'}
-                        </Grid>
-                        <Grid item>
-                            <Controller
-                                as={MeasureDropdown}
-                                id='units' 
-                                name='unit' 
-                                label='of units' 
-                                defaultValue={defaultValues.unit}
-                                className=''
-                                control={control}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField 
-                                inputRef={register(rules.quantity)} 
-                                name='quantity'
-                                label='quantity' 
-                                defaultValue={defaultValues.quantity}
-                                type='number' 
-                                InputProps={{
-                                    endAdornment: <InputAdornment position="end">{baseUnit}</InputAdornment>,
-                                }}
-                                variant='outlined' 
-                                size='small'
-                                fullWidth 
-                            />
-                            {errors.quantity && 'A quantity is required'}
-                        </Grid>
-                        <Grid item>
+        <Dialog 
+            open={open} 
+            onClose={() => handleFormClose(false)}
+            TransitionComponent={Transition}
+            fullWidth
+        >
+            <DialogTitle>{`${ingredient ? 'Edit' : 'Create'} Ingredient:`}</DialogTitle>
+            <DialogContent >
+                <Grid container spacing={2}>            
+                    <Grid item>
+                        <Typography variant='h4'>{}</Typography>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField 
+                            error={!!errors.ingredientName}
+                            inputRef={register(rules.ingredientName)} 
+                            name='ingredientName'
+                            label='Ingredient name' 
+                            defaultValue={defaultValues.ingredientName}
+                            variant='outlined' 
+                            size='small' 
+                            fullWidth
+                            helperText={errors.ingredientName ? errors.ingredientName.message : null}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField 
+                            error={!!errors.cost}
+                            inputRef={register(rules.cost)} 
+                            name='cost'
+                            label='Cost' 
+                            defaultValue={defaultValues.cost}
+                            type='number' 
+                            variant='outlined' 
+                            inputProps={{ min: '0', step: '0.01' }}
+                            size='small'
+                            fullWidth 
+                            helperText={errors.cost ? errors.cost.message : null}
+                        />                
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Controller
+                            as={CurrencyDropdown}
+                            id='currency' 
+                            name='pricedInCurrency' 
+                            label='In currency' 
+                            defaultValue={defaultValues.pricedInCurrency}
+                            className=''
+                            control={control}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            error={!!errors.numberOfUnits} 
+                            inputRef={register(rules.numberOfUnits)} 
+                            name='numberOfUnits' 
+                            label='Per number'
+                            defaultValue={defaultValues.numberOfUnits}
+                            type='number' 
+                            variant='outlined' 
+                            inputProps={{ min: '0', step: '0.00001' }}
+                            size='small'
+                            fullWidth 
+                            helperText={errors.numberOfUnits ? errors.numberOfUnits.message : null}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <Controller
+                            as={MeasureDropdown}
+                            id='units' 
+                            name='unit' 
+                            label='of units' 
+                            defaultValue={defaultValues.unit}
+                            className=''
+                            control={control}
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField 
+                            error={!!errors.quantity}
+                            inputRef={register(rules.quantity)} 
+                            name='quantity'
+                            label='quantity' 
+                            defaultValue={defaultValues.quantity}
+                            type='number' 
+                            inputProps={{ 
+                                min: '0',
+                                step: '0.00001'
+                            }}
+                            InputProps={{ endAdornment: <InputAdornment position="end">{baseUnit}</InputAdornment> }}
+                            variant='outlined' 
+                            size='small'
+                            fullWidth 
+                            helperText={errors.quantity ? errors.quantity.message : null}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <FormLabel>Select Collection:</FormLabel>
                         <Controller
                             as={
-                                <RadioGroup>
+                                <RadioGroup row className={classes.radioGroup} >
                                 <FormControlLabel
+                                    className={classes.radio}
                                     value='variable'
                                     control={<Radio />}
                                     label='variable'
+                                    labelPlacement='bottom'
                                 />
                                 <FormControlLabel
+                                    className={classes.radio}
                                     value='balance'
                                     control={<Radio />}
                                     label='balance'
+                                    labelPlacement='bottom'
                                 />
                                 <FormControlLabel
+                                    className={classes.radio}
                                     value='fixed'
                                     control={<Radio />}
                                     label='fixed'
+                                    labelPlacement='bottom'
                                 />
                                 </RadioGroup>
                             }
                             name='collection'
                             control={control}
                             defaultValue={defaultValues.collection}
-                            />
-                            {/* <FormControl variant="outlined" className='' size='small' fullWidth>
-                                <InputLabel id="collectionLabel">Collection</InputLabel>
-                                <Controller
-                                    as={Select}
-                                    id='collection' 
-                                    name='collection' 
-                                    labelId='collectionLabel' 
-                                    defaultValue={defaultValues.collection}
-                                    control={control}
-                                >
-                                    <MenuItem value='fixed'>Fixed</MenuItem>
-                                    <MenuItem value='balance'>Balance</MenuItem>
-                                    <MenuItem value='variable'>Variable</MenuItem>
-                                </Controller>
-                            </FormControl> */}
-                        </Grid>
-                        <Grid item>
-                            <Button 
-                                type='submit' 
-                                variant='outlined'>{ingredient ? 'Save' : 'Create'}
-                            </Button>
-                        </Grid>
+                        />
                     </Grid>
-                </form>
-            </div>
+                </Grid>
+            </DialogContent>
+            <DialogActions>
+                <Button 
+                    variant='contained'
+                    color='primary'
+                    onClick={handleSubmit((data) => onSubmit(data))}
+                >
+                    {ingredient ? 'Save' : 'Create'}
+                </Button>
+                <Button 
+                    variant='contained'
+                    color='default'
+                    onClick={() => handleFormClose(false)} 
+                >
+                    Cancel
+                </Button>
+            </DialogActions>
         </Dialog>
     )
 }
