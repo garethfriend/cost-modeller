@@ -5,7 +5,7 @@ import {
 } from '../types'
 import { combineReducers } from 'redux'
 import axios from 'axios'
-import codes from '../../codes'
+import codes from '../../assets/codes'
 
 // CONSTANTS
 

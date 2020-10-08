@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import Grid from '@material-ui/core/Grid'
+import Tooltip from '@material-ui/core/Tooltip'
 import { makeStyles } from '@material-ui/core/styles'
 import Slide from '@material-ui/core/Slide'
 import FormLabel from '@material-ui/core/FormLabel'
@@ -28,14 +29,11 @@ import CurrencyDropdown from './CurrencyDropdown'
 import MeasureDropdown from './MeasureDropdown'
 
 const useStyles = makeStyles(theme => ({
-    radioGroup: {
-        flexWrap: false,
-        flexDirection: 'row',
-        justifyContent: 'space-around'
+    formTitle: {
+        paddingBottom: 0
     },
-    radio: {
-        // marginRight: 'auto'
-
+    paper: { 
+        minWidth: '365px',
     }
 }))
 
@@ -102,8 +100,10 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
             onClose={() => handleFormClose(false)}
             TransitionComponent={Transition}
             fullWidth
+            maxWidth={'md'}
+            className={classes.paper}
         >
-            <DialogTitle>{`${ingredient ? 'Edit' : 'Create'} Ingredient:`}</DialogTitle>
+            <DialogTitle className={classes.formTitle}>{`${ingredient ? 'Edit' : 'Create'} Ingredient:`}</DialogTitle>
             <DialogContent >
                 <Grid container spacing={2}>            
                     <Grid item>
@@ -199,28 +199,31 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
                         <FormLabel>Select Collection:</FormLabel>
                         <Controller
                             as={
-                                <RadioGroup row className={classes.radioGroup} >
-                                <FormControlLabel
-                                    className={classes.radio}
-                                    value='variable'
-                                    control={<Radio />}
-                                    label='variable'
-                                    labelPlacement='bottom'
-                                />
-                                <FormControlLabel
-                                    className={classes.radio}
-                                    value='balance'
-                                    control={<Radio />}
-                                    label='balance'
-                                    labelPlacement='bottom'
-                                />
-                                <FormControlLabel
-                                    className={classes.radio}
-                                    value='fixed'
-                                    control={<Radio />}
-                                    label='fixed'
-                                    labelPlacement='bottom'
-                                />
+                                <RadioGroup row>
+                                <Tooltip title='Contents are the subject of the model and scale between limits'>
+                                    <FormControlLabel
+                                        value='variable'
+                                        control={<Radio />}
+                                        label='variable'
+                                        labelPlacement='bottom'
+                                    />
+                                </Tooltip>
+                                <Tooltip title='This group scales its contents to accomodate changes to variable group'>
+                                    <FormControlLabel
+                                        value='balance'
+                                        control={<Radio />}
+                                        label='balance'
+                                        labelPlacement='bottom'
+                                    />
+                                </Tooltip>
+                                <Tooltip title='Contents of this group have fixed quantities'>
+                                    <FormControlLabel
+                                        value='fixed'
+                                        control={<Radio />}
+                                        label='fixed'
+                                        labelPlacement='bottom'
+                                    />
+                                </Tooltip>
                                 </RadioGroup>
                             }
                             name='collection'

@@ -5,7 +5,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
-import codes from '../codes'
+import codes from '../assets/codes'
 import { getRates } from '../redux/selectors'
 
 const codeDescription = (code) => code in codes? codes[code] : code

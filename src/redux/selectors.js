@@ -44,7 +44,7 @@ const getCollection = (state, collection) => state.collections[collection]
 
 // INGREDIENT SELECTORS
 const getIngredients = state => state.ingredients
-
+const getIngredientCount = state => state.ingredients.length
 const getIngredient = (state, id) => state.ingredients.find(ingredient => ingredient.id === id)
 
 const getIngredientCollection = (state, id) => {
@@ -185,6 +185,7 @@ export {
     getCollectionIngredients,  
     getIngredients,
     getIngredient,
+    getIngredientCount,
     getIngredientCollection,
     getIngredientsTotalQuantity,
     getCollectionTotalQuantity,

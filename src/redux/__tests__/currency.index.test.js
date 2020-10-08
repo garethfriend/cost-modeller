@@ -6,7 +6,7 @@ import {
     FETCH_CURRENCIES_ERROR
 } from '../types'
 import currencyReducer, * as currency from '../currency'
-import codes from '../../codes'
+import codes from '../../assets/codes'
 import {
     storeFactory
 } from '../../testUtils'
