@@ -41,6 +41,7 @@ const getBaseCurrencyExchangeRate = (state, priceCurrency) => {
  * @returns {array} an array of ingredient ids.
  */
 const getCollection = (state, collection) => state.collections[collection]
+const getCollectionCount = (state, collection) => state.collections[collection].length
 
 // INGREDIENT SELECTORS
 const getIngredients = state => state.ingredients
@@ -182,7 +183,8 @@ export {
     getUnitType,
     getBaseCurrency,
     getBaseCurrencyExchangeRate,
-    getCollectionIngredients,  
+    getCollectionIngredients,
+    getCollectionCount,  
     getIngredients,
     getIngredient,
     getIngredientCount,

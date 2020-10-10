@@ -27,9 +27,6 @@ const useStyles = makeStyles(theme => ({
         width: '150px',
         wordWrap: true
     },
-    ingQuant: {
-        
-    },
     li: {
         padding: theme.spacing(0.5)
     },
@@ -50,8 +47,13 @@ const IngredientList = ({ ingredients, baseUnit, deleteIngredient, handleFormOpe
                 {ingredients.map(ingredient => {
                     return (
                         <ListItem key={ingredient.id} className={classes.li} >
-                            <Typography variant='body1' className={classes.ingName}>{ingredient.ingredientName}</Typography>
-                            <Typography variant='body2' className={classes.ingQuant}>{`${ingredient.quantity}${baseUnit}`}</Typography>
+                            <Tooltip 
+                                placement='right'
+                                title={`Priced at ${ingredient.cost}${ingredient.pricedInCurrency} per ${ingredient.numberOfUnits}${ingredient.unit}`}
+                            >
+                                <Typography variant='body1' className={classes.ingName}>{ingredient.ingredientName}</Typography>
+                            </Tooltip>
+                            <Typography variant='body2'>{`${ingredient.quantity}${baseUnit}`}</Typography>
                             
                             <Tooltip title='Edit ingredient'>
                                 <IconButton 
