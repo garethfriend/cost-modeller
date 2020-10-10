@@ -3,9 +3,9 @@ import { connect } from 'react-redux'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
-import { Doughnut } from 'react-chartjs-2'
 
-import { getCollectionCostPerBaseUnit, getCollectionTotalQuantity } from '../redux/selectors'
+import { getBaseCurrency, getBaseUnit, getCollectionCostPerBaseUnit, getCollectionTotalQuantity } from '../redux/selectors'
+import CustomDoughnut from './CustomDoughnut'
 
 const useStyles = makeStyles(theme => ({
     graph: {
@@ -15,23 +15,47 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const CollectionsChart = ({ data }) => {
+const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUnit, baseCurrency }) => {
     const classes = useStyles()
-    console.log('render dougnnut')
     return (
-        <Grid item xs={12} md={8} className={classes.graph}>
-            <Doughnut 
-                data={data}
-                options={{
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    title: {
-                        display: true,
-                        text: 'Collection Quantities'
-                    }
-                }}
-            />
-        </Grid>
+        <>
+            <Grid item xs={12} md={4} className={classes.graph}>
+                <CustomDoughnut 
+                    title='Collection Quantities'
+                    data={quantities}
+                    annotation={`${totalQuantity}${baseUnit}`}
+                    tooltips={{
+                        callbacks: {
+                            title: (tooltipItem, data) => data['labels'][tooltipItem[0]['index']],
+                            label: (tooltipItem, data) => `${data['datasets'][0]['data'][tooltipItem['index']]}${baseUnit}`,
+                            afterLabel: (tooltipItem, data) => {
+                                var dataset = data['datasets'][0]
+                                var percent = Math.round((dataset['data'][tooltipItem['index']] / totalQuantity) * 100)
+                                return `( ${percent}% )`
+                            }
+                        }
+                    }} 
+                />
+            </Grid>
+            <Grid item xs={12} md={4} className={classes.graph}>
+            <CustomDoughnut 
+                    title='Collection Costs'
+                    data={costs}
+                    annotation={`${totalCost}${baseCurrency}`}
+                    tooltips={{
+                        callbacks: {
+                            title: (tooltipItem, data) => data['labels'][tooltipItem[0]['index']],
+                            label: (tooltipItem, data) => `${data['datasets'][0]['data'][tooltipItem['index']]}${baseCurrency}`,
+                            afterLabel: (tooltipItem, data) => {
+                                var dataset = data['datasets'][0]
+                                var percent = Math.round((dataset['data'][tooltipItem['index']] / totalCost) * 100)
+                                return `( ${percent}% )`
+                            }
+                        }
+                    }} 
+                />
+            </Grid>
+        </>
     )
 }
 
@@ -42,52 +66,22 @@ const mapStateToProps = state => {
     const variableCost = variableQuantity * getCollectionCostPerBaseUnit(state, 'variable')
     const balanceCost = balanceQuantity * getCollectionCostPerBaseUnit(state, 'balance')
     const fixedCost = fixedQuantity * getCollectionCostPerBaseUnit(state, 'fixed')
+    console.log(variableCost, balanceCost, fixedCost)
     return ({
-    data: {
-        labels: [
-            'Variable',
-            'Balance',
-            'Fixed'
-        ],
-        datasets: [
-            {
-                label: 'Quantity',
-                data: [
-                    variableQuantity, 
-                    balanceQuantity, 
-                    fixedQuantity
-                ],
-                backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ],
-                hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ]
-            },
-            {
-                label: 'Cost',
-                data: [
-                    variableCost, 
-                    balanceCost, 
-                    fixedCost
-                ],
-                backgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ],
-                hoverBackgroundColor: [
-                '#FF6384',
-                '#36A2EB',
-                '#FFCE56'
-                ]
-            }
-        ]
-    }
+    totalQuantity: (variableQuantity + balanceQuantity + fixedQuantity).toFixed(3),
+    totalCost: (variableCost + balanceCost + fixedCost).toFixed(2),
+    quantities: [
+        variableQuantity.toFixed(3), 
+        balanceQuantity.toFixed(3), 
+        fixedQuantity.toFixed(3)
+    ],
+    costs: [
+        variableCost.toFixed(2),
+        balanceCost.toFixed(2),
+        fixedCost.toFixed(2)
+    ],
+    baseUnit: getBaseUnit(state),
+    baseCurrency: getBaseCurrency(state)
 })
 }
 

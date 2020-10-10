@@ -38,7 +38,7 @@ const Calculator = ({ ingredientCount }) => {
                 <Grid item container spacing={2}>
                     {ingredientCount > 0 ? (
                         <>
-                            <Totals />
+                            {/* <Totals /> */}
                             <IngredientList handleFormOpen={handleFormOpen} />
                             <CollectionsChart />
                             <Grid item>

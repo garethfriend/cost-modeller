@@ -173,7 +173,10 @@ const getCollectionCostPerBaseUnit = createCachedSelector(
     (state, collection) => collection
 )
 
-
+const getTotalCost = createSelector(
+    [getIngredients, getIngredientsTotalQuantity, getConfig, getRates],
+    (ingredients, totalQuantity, config, rates) => costCalculation(ingredients, totalQuantity, config, rates)
+)
 
 export {
     getRates,
@@ -192,5 +195,6 @@ export {
     getIngredientsTotalQuantity,
     getCollectionTotalQuantity,
     getCollectionPercentOfTotal,
-    getCollectionCostPerBaseUnit
+    getCollectionCostPerBaseUnit,
+    getTotalCost
 }
