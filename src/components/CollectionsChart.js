@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { getBaseCurrency, getBaseUnit, getCollectionCostPerBaseUnit, getCollectionTotalQuantity } from '../redux/selectors'
 import CustomDoughnut from './CustomDoughnut'
+import { roundFloatingPoint, formatCurrency } from '../assets/Utils'
 
 const useStyles = makeStyles(theme => ({
     graph: {
@@ -21,7 +21,7 @@ const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUni
         <>
             <Grid item xs={12} md={4} className={classes.graph}>
                 <CustomDoughnut 
-                    title='Collection Quantities'
+                    title='Quantities'
                     data={quantities}
                     annotation={`${totalQuantity}${baseUnit}`}
                     tooltips={{
@@ -30,8 +30,8 @@ const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUni
                             label: (tooltipItem, data) => `${data['datasets'][0]['data'][tooltipItem['index']]}${baseUnit}`,
                             afterLabel: (tooltipItem, data) => {
                                 var dataset = data['datasets'][0]
-                                var percent = Math.round((dataset['data'][tooltipItem['index']] / totalQuantity) * 100)
-                                return `( ${percent}% )`
+                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalQuantity) * 100), 2)
+                                return `( ${percent}% of total )`
                             }
                         }
                     }} 
@@ -39,17 +39,17 @@ const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUni
             </Grid>
             <Grid item xs={12} md={4} className={classes.graph}>
             <CustomDoughnut 
-                    title='Collection Costs'
+                    title='Costs'
                     data={costs}
-                    annotation={`${totalCost}${baseCurrency}`}
+                    annotation={`${formatCurrency(totalCost, baseCurrency)}`}
                     tooltips={{
                         callbacks: {
                             title: (tooltipItem, data) => data['labels'][tooltipItem[0]['index']],
-                            label: (tooltipItem, data) => `${data['datasets'][0]['data'][tooltipItem['index']]}${baseCurrency}`,
+                            label: (tooltipItem, data) => `${formatCurrency(data['datasets'][0]['data'][tooltipItem['index']], baseCurrency)}`,
                             afterLabel: (tooltipItem, data) => {
                                 var dataset = data['datasets'][0]
-                                var percent = Math.round((dataset['data'][tooltipItem['index']] / totalCost) * 100)
-                                return `( ${percent}% )`
+                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalCost) * 100), 2)
+                                return `( ${percent}% of total )`
                             }
                         }
                     }} 
@@ -66,19 +66,19 @@ const mapStateToProps = state => {
     const variableCost = variableQuantity * getCollectionCostPerBaseUnit(state, 'variable')
     const balanceCost = balanceQuantity * getCollectionCostPerBaseUnit(state, 'balance')
     const fixedCost = fixedQuantity * getCollectionCostPerBaseUnit(state, 'fixed')
-    console.log(variableCost, balanceCost, fixedCost)
+
     return ({
-    totalQuantity: (variableQuantity + balanceQuantity + fixedQuantity).toFixed(3),
-    totalCost: (variableCost + balanceCost + fixedCost).toFixed(2),
+    totalQuantity: roundFloatingPoint((variableQuantity + balanceQuantity + fixedQuantity), 3),
+    totalCost: roundFloatingPoint((variableCost + balanceCost + fixedCost), 2),
     quantities: [
-        variableQuantity.toFixed(3), 
-        balanceQuantity.toFixed(3), 
-        fixedQuantity.toFixed(3)
+        roundFloatingPoint(variableQuantity, 3), 
+        roundFloatingPoint(balanceQuantity, 3), 
+        roundFloatingPoint(fixedQuantity, 3)
     ],
     costs: [
-        variableCost.toFixed(2),
-        balanceCost.toFixed(2),
-        fixedCost.toFixed(2)
+        roundFloatingPoint(variableCost, 2),
+        roundFloatingPoint(balanceCost, 2),
+        roundFloatingPoint(fixedCost, 2) 
     ],
     baseUnit: getBaseUnit(state),
     baseCurrency: getBaseCurrency(state)

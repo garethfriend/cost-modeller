@@ -10,6 +10,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Divider from '@material-ui/core/Divider'
 
 import { getBaseCurrency, getBaseUnit, getIngredientCount } from '../redux/selectors'
+import { formatCurrency } from '../assets/Utils'
 
 const useStyles = makeStyles(theme => ({
     iconButton: {
@@ -29,7 +30,7 @@ const TopToolBar = props => {
         <>
         <Grid item container direction='row' alignItems='flex-start' alignContent='center' spacing={2} xs={12}>
             <Grid item>
-                <Typography variant='body1'>Currency: {baseCurrency}</Typography>
+                <Typography variant='body1'>Currency: {formatCurrency(0, baseCurrency)}</Typography>
             </Grid>
             <Grid item>
                 <Typography variant='body1'>Units: {baseUnit}</Typography>

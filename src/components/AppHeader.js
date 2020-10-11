@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 const menuItems = [
     { menuTitle: 'Calculator', pageURL: '/' },
     { menuTitle: 'How To', pageURL: '/howto' },
+    { menuTitle: 'Exchange Rates', pageURL: '/currency' },
     { menuTitle: 'About', pageURL: '/about' }
 ]
 

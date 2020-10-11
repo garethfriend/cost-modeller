@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 
-const tabNameToIndex = { 0: '/', 1: '/howto', 2: '/about' }
-const indexToTabName = { '/': 0, '/howto': 1, '/about': 2 }
+const tabNameToIndex = { 0: '/', 1: '/howto', 2: '/currency', 3: '/about' }
+const indexToTabName = { '/': 0, '/howto': 1, '/currency': 2, '/about': 3 }
 
 const AppBarTabs = ({ history, location, menuItems }) => {
     const path = location.pathname

@@ -11,6 +11,8 @@ import {
     getCollectionPercentOfTotal, 
     getCollectionCostPerBaseUnit 
 } from '../redux/selectors'
+import { roundFloatingPoint } from '../assets/Utils'
+
 
 const useStyles = makeStyles(theme => ({
     totals: {
@@ -27,8 +29,8 @@ const Totals = ({ totalQuantity, baseUnit, baseCurrency, fixed, balance, variabl
     const totalCost = totalCostPerUnit * totalQuantity
     return (
         <Grid item container direction='row' className={classes.totalsContainer} xs={12}>
-            <Typography className={classes.totals} variant='h6'>Total quantity: {totalQuantity.toFixed(3)}{baseUnit}</Typography>
-            <Typography className={classes.totals} variant='h6'>Total cost: {totalCost.toFixed(2)} {baseCurrency}</Typography>
+            <Typography className={classes.totals} variant='h6'>Total quantity: {roundFloatingPoint(totalQuantity, 3)}{baseUnit}</Typography>
+            <Typography className={classes.totals} variant='h6'>Total cost: {roundFloatingPoint(totalCost, 2)} {baseCurrency}</Typography>
             
             {/* <ul>
                 <li></li>    

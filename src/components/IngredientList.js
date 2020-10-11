@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography'
 
 import { getBaseUnit, getIngredients } from '../redux/selectors'
 import { deleteIngredient } from '../redux/ingredient'
+import { formatCurrency } from '../assets/Utils'
 
 const useStyles = makeStyles(theme => ({
     editButton: {
@@ -49,7 +50,7 @@ const IngredientList = ({ ingredients, baseUnit, deleteIngredient, handleFormOpe
                         <ListItem key={ingredient.id} className={classes.li} >
                             <Tooltip 
                                 placement='right'
-                                title={`Priced at ${ingredient.cost}${ingredient.pricedInCurrency} per ${ingredient.numberOfUnits}${ingredient.unit}`}
+                                title={`Priced at ${formatCurrency(ingredient.cost, ingredient.pricedInCurrency)} per ${ingredient.numberOfUnits}${ingredient.unit}`}
                             >
                                 <Typography variant='body1' className={classes.ingName}>{ingredient.ingredientName}</Typography>
                             </Tooltip>
