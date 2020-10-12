@@ -1,10 +1,11 @@
+import { combineReducers } from 'redux'
+import axios from 'axios'
+
 import { 
     FETCH_CURRENCIES_REQUEST,
     FETCH_CURRENCIES_SUCCESS,
     FETCH_CURRENCIES_ERROR 
 } from '../types'
-import { combineReducers } from 'redux'
-import axios from 'axios'
 import codes from '../../assets/codes'
 
 // CONSTANTS
