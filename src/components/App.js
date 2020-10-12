@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import {connect} from 'react-redux'
 import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 
 import Footer from './Footer'
 import AppHeader from './AppHeader'
@@ -12,17 +13,27 @@ import CurrencyData from './CurrencyData'
 import { fetchCurrencies } from '../redux/currency'
 import history from '../history'
 
-const App = ({ fetchCurrencies }) => {
+const useStyles = makeStyles(theme => ({
+    container: {
+        minHeight: '100vh'
+    },
+    content: {
+        height: '100%', 
+        flexGrow: 1
+    }
+}))
 
+const App = ({ fetchCurrencies }) => {
+    const classes = useStyles()
     useEffect(() => {
         fetchCurrencies()
     }, [fetchCurrencies])
 
     return (
         <Router history={history}>
-            <Grid container direction='column' >
+            <Grid container direction='column' justify='flex-start' className={classes.container}>
                 <AppHeader />
-                <Grid item>
+                <Grid item className={classes.content}>
                     <Switch>
                         <Route path="/" exact component={Calculator} />
                         <Route path="/howto" component={HowTo} />
@@ -32,6 +43,8 @@ const App = ({ fetchCurrencies }) => {
                 </Grid>
                 <Footer />
             </Grid>
+            
+
         </Router>
     )
 }

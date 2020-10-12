@@ -11,7 +11,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles(theme => ({
     footer: {
-        position: 'fixed',
+        position: 'relative',
         top: 'auto',
         bottom: 0
     },

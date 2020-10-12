@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { useForm, Controller } from 'react-hook-form'
 import Button from '@material-ui/core/Button'
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Dialog from '@material-ui/core/Dialog'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -27,6 +28,7 @@ import {
 import { createIngredient, editIngredient } from '../redux/ingredient'
 import CurrencyDropdown from './CurrencyDropdown'
 import MeasureDropdown from './MeasureDropdown'
+import { formatCurrency } from '../assets/Utils'
 
 const useStyles = makeStyles(theme => ({
     formTitle: {
@@ -42,7 +44,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 })
 
 const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUnit, editIngredient, createIngredient, handleFormClose }) => {
-    const { register, handleSubmit, control, errors } = useForm()
+    const { register, handleSubmit, watch, control, errors } = useForm()
     const classes = useStyles()
     
     const onSubmit = (data) => {
@@ -94,6 +96,8 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
         },
     }
 
+    const watchPricedInCurrency = watch('pricedInCurrency', defaultValues.pricedInCurrency)
+
     return (
         <Dialog 
             open={open} 
@@ -132,6 +136,7 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
                             type='number' 
                             variant='outlined' 
                             inputProps={{ min: '0', step: '0.01' }}
+                            InputProps={{ endAdornment: <InputAdornment position="end">{formatCurrency(0, watchPricedInCurrency)}</InputAdornment> }}
                             size='small'
                             fullWidth 
                             helperText={errors.cost ? errors.cost.message : null}
@@ -234,20 +239,22 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
                 </Grid>
             </DialogContent>
             <DialogActions>
-                <Button 
-                    variant='contained'
-                    color='primary'
-                    onClick={handleSubmit((data) => onSubmit(data))}
-                >
-                    {ingredient ? 'Save' : 'Create'}
-                </Button>
-                <Button 
-                    variant='contained'
-                    color='default'
-                    onClick={() => handleFormClose(false)} 
-                >
-                    Cancel
-                </Button>
+                <ButtonGroup >
+                    <Button 
+                        variant='contained'
+                        color='primary'
+                        onClick={handleSubmit((data) => onSubmit(data))}
+                    >
+                        {ingredient ? 'Save' : 'Create'}
+                    </Button>
+                    <Button 
+                        variant='contained'
+                        color='default'
+                        onClick={() => handleFormClose(false)} 
+                    >
+                        Cancel
+                    </Button>
+                </ButtonGroup>
             </DialogActions>
         </Dialog>
     )

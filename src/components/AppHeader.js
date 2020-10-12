@@ -10,9 +10,6 @@ import AppBarMenu from './AppBarMenu'
 import AppBarTabs from './AppBarTabs'
 
 const useStyles = makeStyles(theme => ({
-    root: {
-      flexGrow: 1
-    },
     title: {
         [theme.breakpoints.down('sm')]: {
             flexGrow: 1
@@ -34,7 +31,7 @@ const AppHeader = () => {
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
      
     return (
-      <Grid item className={classes.root}>
+      <Grid item>
          <AppBar position='static'>
             <Toolbar>
               <Typography variant='h5' className={classes.title}>
