@@ -16,6 +16,8 @@ const getBaseUnit = state => fromConfig.getBaseUnit(state.config)
 const getUnitType = state => fromConfig.getUnitType(state.config)
 const getConfig = state => state.config
 
+// ERRORS SELECTORS
+const getErrors = state => state.errors
 
 // CURRENCY AND CURRENCY CONVERSION SELECTORS
 const getRates = state => fromCurrency.getRates(state.currency)
@@ -184,6 +186,7 @@ export {
     getUnitDefinitions,
     getBaseUnit,
     getUnitType,
+    getErrors,
     getBaseCurrency,
     getBaseCurrencyExchangeRate,
     getCollectionIngredients,
