@@ -16,10 +16,6 @@ export const ASSIGN_INGREDIENT = 'ASSIGN_INGREDIENT'
 export const OPEN_INGREDIENT = 'OPEN_INGREDIENT'
 export const CLOSE_INGREDIENT = 'CLOSE_INGREDIENT'
 
-// group related
-export const CLEAR_GROUP = 'CLEAR_GROUP'
-export const SIZE_GROUP = 'SIZE_GROUP'
-
-// total quantity related
-export const TOTAL_QUANTITY_CHANGE = 'TOTAL_QUANTITY_CHANGE'
-export const TOTAL_QUANTITY_UNITS_CHANGE = 'TOTAL_QUANTITY_UNITS_CHANGE'
+// model related
+export const SET_MODEL_LIMIT_TYPE ='SET_MODEL_LIMIT_TYPE'
+export const SET_MODEL_LIMITS = 'SET_MODEL_LIMITS'

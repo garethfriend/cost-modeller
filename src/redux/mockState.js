@@ -54,7 +54,8 @@ export default {
             UYU: 43.13,
             ZAR: 17.23
         },
-        isLoading: false
+        isLoading: false,
+        timeStamp: 'Thu, 15 Oct 2020 00:06:32 +0000'
     },
     errors: null,
     config: {
@@ -75,7 +76,6 @@ export default {
         numberOfUnits: 10,
         unit: 'kg',
         quantity: 400,
-        editing: false
     },
     {
         id: '154-6876-8443',
@@ -85,7 +85,6 @@ export default {
         numberOfUnits: 15,
         unit: 'kg',
         quantity: 100,
-        editing: false
     },
     {
         id: '158-2987-3546',
@@ -95,7 +94,6 @@ export default {
         numberOfUnits: 150,
         unit: 'kg',
         quantity: 24,
-        editing: false
     },
     {
         id: '249-3888-8999',
@@ -105,7 +103,6 @@ export default {
         numberOfUnits: 134,
         unit: 'g',
         quantity: 0.023,
-        editing: false
     },{
         id: '249-8388-8355',
         ingredientName: 'Bulking Agent 23',
@@ -114,7 +111,6 @@ export default {
         numberOfUnits: 75,
         unit: 'kg',
         quantity: 240,
-        editing: false
     },
     {
         id: '945-6647-9977',
@@ -124,6 +120,8 @@ export default {
         numberOfUnits: 150,
         unit: 'g',
         quantity: 0.3,
-        editing: true
-    }]
+    }],
+    model: {
+        
+    }
 }

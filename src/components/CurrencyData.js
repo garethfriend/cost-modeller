@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
+import { makeStyles } from '@material-ui/core/styles'
 import debounce from 'lodash.debounce'
 
 import codes from '../assets/codes'
@@ -12,7 +14,14 @@ import { fetchCurrencies } from '../redux/currency'
 
 const codeDescription = (code) => code in codes? codes[code] : code
 
-const CurrencyData = ({ rates, fetchCurrencies }) => {
+const useStyles = makeStyles(theme => ({
+    container: {
+        padding: theme.spacing(2) 
+    }
+}))
+
+const CurrencyData = ({ rates, fetchCurrencies, timeStamp }) => {
+    const classes = useStyles()
     const [selectedCurrency, setSelectedCurrency] = useState('USD')
     const currencyExchangeRate = (fromCurrency, toCurrency) => {
         return rates[toCurrency] / rates[fromCurrency]
@@ -28,8 +37,9 @@ const CurrencyData = ({ rates, fetchCurrencies }) => {
     ))
     
     return (
-        <div>
+        <Grid container xs={12} direction='column' className={classes.container}>
             <h4>Currency Data</h4>
+            {`Last updated: ${timeStamp ? timeStamp.replace(/\+\d\d\d\d/, '') : ''}`}
             <Button onClick={debounce(() => fetchCurrencies(), 1000)}>
                 Refresh
             </Button>
@@ -40,12 +50,13 @@ const CurrencyData = ({ rates, fetchCurrencies }) => {
                 onChange={setSelectedCurrency}
             />
             {currencyOptions}
-        </div>
+        </Grid>
     )
 }
 
 const mapStateToProps = state => ({
-    rates: getRates(state)
+    rates: getRates(state),
+    timeStamp: state.currency.timeStamp
 })
 
 export default connect(mapStateToProps, { fetchCurrencies })(CurrencyData)

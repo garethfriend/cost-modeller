@@ -10,6 +10,7 @@ import StartScreen from './StartScreen'
 import TopToolBar from './TopToolBar'
 import { getIngredientCount } from '../redux/selectors'
 import CollectionsChart from './CollectionsChart'
+import ModelControls from './ModelControls'
 
 const useStyles = makeStyles(theme => ({
     container: {
@@ -39,10 +40,8 @@ const Calculator = ({ ingredientCount }) => {
                         <>
                             <IngredientList handleFormOpen={handleFormOpen} />
                             <CollectionsChart />
-                            <Grid item>
-                                modelcontrols
-                            </Grid>
-                            <Grid item>
+                            <ModelControls />
+                            <Grid item xs={12} md={6}>
                                 predictions chart
                             </Grid>
                         </>

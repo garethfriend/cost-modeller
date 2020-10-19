@@ -17,14 +17,16 @@ const INITIAL_RATES = Object.fromEntries(Object.keys(codes).map((code) => [code,
 const loadRatesRequest = () => ({
     type: FETCH_CURRENCIES_REQUEST,
         payload: {
+            timeStamp: null,
             isLoading: true
         }
 })
    
-const loadRatesSuccess = (rates) => ({
+const loadRatesSuccess = (data) => ({
     type: FETCH_CURRENCIES_SUCCESS,
     payload:{
-        rates: rates,
+        rates: data.rates,
+        timeStamp: data.timeStamp,
         isLoading: false,
         error: null
     }
@@ -34,6 +36,7 @@ const loadRatesError = (error) => ({
     type: FETCH_CURRENCIES_ERROR,
     payload:{
         rates: INITIAL_RATES,
+        timeStamp: null,
         isLoading: false,
         error: error
     }
@@ -45,7 +48,7 @@ export const fetchCurrencies = () => {
         try{
             let response = (await axios.get('https://open.exchangerate-api.com/v6/latest')).data
             if(response.result === "success"){
-                dispatch(loadRatesSuccess(response.rates))
+                dispatch(loadRatesSuccess({ rates: response.rates, timeStamp: response.time_last_update_utc }))
             }else{
                 dispatch(loadRatesError(response["error-type"]))
         }
@@ -78,9 +81,21 @@ const loadingReducer = (isLoading = true, action) => {
     }
 }
 
+const timeStampReducer = (timeStamp = null, action) => {
+    switch (action.type) {
+        case FETCH_CURRENCIES_SUCCESS:
+        case FETCH_CURRENCIES_ERROR:
+        case FETCH_CURRENCIES_REQUEST:
+            return action.payload.timeStamp
+        default:
+            return timeStamp
+    }
+}
+
 const currencyReducer = combineReducers({
     rates: ratesReducer,
     isLoading: loadingReducer,
+    timeStamp: timeStampReducer,
 })
 
 export default currencyReducer

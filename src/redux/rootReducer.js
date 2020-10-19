@@ -4,6 +4,7 @@ import configReducer from './config'
 import errorsReducer from './error'
 import collectionsReducer from './collections'
 import ingredientReducer from './ingredient'
+import modelReducer from './model'
 
 
 
@@ -12,6 +13,7 @@ export default combineReducers({
     config: configReducer,
     errors: errorsReducer,
     collections: collectionsReducer,
-    ingredients: ingredientReducer
+    ingredients: ingredientReducer,
+    model: modelReducer
 })
 

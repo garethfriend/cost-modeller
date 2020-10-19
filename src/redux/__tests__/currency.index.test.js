@@ -37,7 +37,8 @@ describe('fetchCurrencies actions', () => {
                     CNY: 7.1,
                     EUR: 0.919,
                     GBP: 0.806
-                }
+                },
+                time_last_update_utc: "Thu, 15 Oct 2020 00:06:32 +0000"
             }
         }
         
@@ -67,7 +68,8 @@ describe('fetchCurrencies actions', () => {
                 EUR: 0.919,
                 GBP: 0.806
               },
-              isLoading: false
+              isLoading: false,
+              timeStamp: 'Thu, 15 Oct 2020 00:06:32 +0000'
             },
             errors: null,
           }
@@ -159,7 +161,8 @@ describe('fetchCurrencies actions', () => {
                     UYU: 1,
                     ZAR: 1
                 },
-                isLoading: false
+                isLoading: false,
+                timeStamp: null
             },
             errors: 'invalid-key',
           }

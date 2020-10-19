@@ -5,6 +5,7 @@ import { mass, volume } from 'units-converter'
 
 import * as fromCurrency from './currency'
 import * as fromConfig from './config'
+import * as fromModel from './model'
 
 // Selectors that need to know about the state slice shape are defined in the same file as the associated reducer and imported here.
 
@@ -180,6 +181,11 @@ const getTotalCost = createSelector(
     (ingredients, totalQuantity, config, rates) => costCalculation(ingredients, totalQuantity, config, rates)
 )
 
+// Model related
+const getModelLimitType = state => fromModel.getModelLimitType(state.model)
+const getModelLimits = state => fromModel.getModelLimits(state.model)
+
+
 export {
     getRates,
     getLoadingStatus,
@@ -199,5 +205,7 @@ export {
     getCollectionTotalQuantity,
     getCollectionPercentOfTotal,
     getCollectionCostPerBaseUnit,
-    getTotalCost
+    getTotalCost,
+    getModelLimitType,
+    getModelLimits
 }

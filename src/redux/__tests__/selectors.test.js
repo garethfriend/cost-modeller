@@ -26,7 +26,6 @@ describe('getCollectionIngredients', () => {
                 numberOfUnits: 150,
                 unit: 'kg',
                 quantity: 24,
-                editing: false
             },
             {
                 id: '249-3888-8999',
@@ -36,7 +35,6 @@ describe('getCollectionIngredients', () => {
                 numberOfUnits: 134,
                 unit: 'g',
                 quantity: 0.023,
-                editing: false
             }
         ]
         const ingredients = selectors.getCollectionIngredients(state, 'balance')
