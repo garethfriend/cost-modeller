@@ -37,7 +37,7 @@ const CurrencyData = ({ rates, fetchCurrencies, timeStamp }) => {
     ))
     
     return (
-        <Grid container xs={12} direction='column' className={classes.container}>
+        <Grid container item xs={12} direction='column' className={classes.container}>
             <h4>Currency Data</h4>
             {`Last updated: ${timeStamp ? timeStamp.replace(/\+\d\d\d\d/, '') : ''}`}
             <Button onClick={debounce(() => fetchCurrencies(), 1000)}>

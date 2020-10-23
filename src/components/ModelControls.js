@@ -14,40 +14,45 @@ import {
     getCollectionTotalQuantity, 
     getIngredientsTotalQuantity,
     getModelLimitType,
-    getModelLimits 
+    getModelLimits, 
+    getBaseUnit
 } from '../redux/selectors'
 import { changeModelLimitType, changeModelLimits } from '../redux/model'
 import { formatCurrency, roundFloatingPoint } from '../assets/Utils'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
+    controlBox: {
+        textAlign: 'center',
+        padding: 0
+    },
+    rangeSlider: {
+        width: '90%',
+        margin: '35px auto 10px auto'
+    }
+})
 
-}))
-
-const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, modelLimitType, changeModelLimits, changeModelLimitType }) => {
+const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, modelLimitType, changeModelLimits, changeModelLimitType, baseUnits }) => {
     const classes = useStyles()
     const [tempLimits, setTempLimits] = useState(modelLimits)
+    
     const calculateSliderLimits = () => {
         switch (modelLimitType) {
             case '%tot':
-                console.log(modelLimitType)
                 return ({
                     min: variable.percent * -100,
                     max: balance.percent * 100,
                 })
             case '%col':
-                console.log(modelLimitType)
                 return ({
                     min: -100,
                     max: (balance.quantity / variable.quantity) * 100,
                 })
             case 'unit':
-                console.log(modelLimitType)
                 return ({
                     min: variable.quantity * -1,
                     max: balance.quantity,
                 })
             default:
-                console.log(modelLimitType)
                 return ({
                     min: 0,
                     max: 0,
@@ -55,8 +60,26 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
         }
     }
 
+    const valueText = (value) => (modelLimitType === '%tot' || modelLimitType === '%col') ? `${value}%` : `${value}${baseUnits}`      
+
+    const marks = [
+        {
+          value: calculateSliderLimits().min,
+          label: `-${valueText(roundFloatingPoint(calculateSliderLimits().min, 2))}`,
+        },
+        {
+          value: 0,
+          label: '0',
+        },
+        {
+          value: calculateSliderLimits().max,
+          label: `+${valueText(roundFloatingPoint(calculateSliderLimits().max, 2))}`,
+        },
+      ]
+      
+
     return (
-        <Grid item xs={12} md={4}>
+        <Grid item xs={12} md={4} className={classes.controlBox}>
             there are {variable.count} variable ingredients
             <RadioGroup row value={modelLimitType} onChange={e => changeModelLimitType(e.target.value)}>
                 <FormControlLabel
@@ -79,14 +102,17 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
                 />
             </RadioGroup>
             <Slider 
+                className={classes.rangeSlider}
                 value={tempLimits}
                 min={calculateSliderLimits().min}
                 max={calculateSliderLimits().max}
                 onChange={(e, newValue) => setTempLimits(newValue)}
                 onChangeCommitted={e => changeModelLimits(tempLimits)}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-                // getAriaValueText={}
+                valueLabelDisplay='on'
+                aria-labelledby='range-slider'
+                getAriaValueText={valueText}
+                marks={marks}
+                step={0.01}
             />
         </Grid>
     )
@@ -96,6 +122,7 @@ const mapStateToProps = state =>({
     modelLimitType: getModelLimitType(state),
     modelLimits: getModelLimits(state),
     totalQuantity: getIngredientsTotalQuantity(state),
+    baseUnits: getBaseUnit(state),
     fixed: {
         quantity: getCollectionTotalQuantity(state, 'fixed'),
         percent: getCollectionPercentOfTotal(state, 'fixed'),

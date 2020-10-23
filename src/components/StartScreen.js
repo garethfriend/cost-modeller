@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     centerContent: {
         display: 'flex',
         alignItems: 'center',
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
         margin: 'auto',
         marginTop: '50px'
     }
-}))
+})
 
 const StartScreen = ({ handleFormOpen }) => {
     const classes = useStyles()

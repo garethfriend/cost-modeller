@@ -51,7 +51,6 @@ const Calculator = ({ ingredientCount }) => {
         </>
     )
     // needs to display a graph
-    // needs to show some controls for the model
     
 }
 

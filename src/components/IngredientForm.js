@@ -30,14 +30,14 @@ import CurrencyDropdown from './CurrencyDropdown'
 import MeasureDropdown from './MeasureDropdown'
 import { formatCurrency } from '../assets/Utils'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     formTitle: {
         paddingBottom: 0
     },
     paper: { 
         minWidth: '365px',
     }
-}))
+})
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='right' ref={ref} {...props} />;
@@ -104,6 +104,7 @@ const IngredientForm = ({ id, open, ingredient, collection, baseCurrency, baseUn
             onClose={() => handleFormClose(false)}
             TransitionComponent={Transition}
             fullWidth
+            scroll='body'
             maxWidth={'md'}
             className={classes.paper}
         >

@@ -3,11 +3,12 @@ import { Doughnut } from 'react-chartjs-2'
 import 'chartjs-plugin-annotation'
 import { makeStyles } from '@material-ui/core/styles'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     relative: {
         position: 'relative',
         width: '100%',
-        height: '100%'
+        // height: '100%'
+        minHeight: '100%'
     },
     centreText: {
         position: 'absolute',
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     text: {
         // fontSize: '1.5rem'
     }
-}))
+})
 
 const CustomDoughnut = ({ data, tooltips, title, annotation }) => {
     const classes = useStyles()

@@ -7,13 +7,13 @@ import { getBaseCurrency, getBaseUnit, getCollectionCostPerBaseUnit, getCollecti
 import CustomDoughnut from './CustomDoughnut'
 import { roundFloatingPoint, formatCurrency } from '../assets/Utils'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     graph: {
         position: 'relative',
         height: '50vh',
         width: '80vw'
     }
-}))
+})
 
 const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUnit, baseCurrency }) => {
     const classes = useStyles()

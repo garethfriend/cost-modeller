@@ -22,17 +22,14 @@ const AlertSnackBar = ({ error, rates, isLoading, fetchCurrencies }) => {
     useEffect(() => {
         if (!isLoading){
             if (error) {
-                console.log('error detected')
                 setAlertType('error')
                 setAlertMessage(`Exchange rates server returned error: "${error}"`)
             } else {
-                console.log('success evaluated')
                 setAlertType('success')            
                 setAlertMessage(`Latest exchange rates successfully received!`)
             }
             setAlertOpen(true)
         }
-        console.log('ran useEffect')
     }, [error, rates, isLoading])
 
     const handleClose = () => {
