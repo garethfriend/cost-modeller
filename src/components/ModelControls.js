@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Typography from '@material-ui/core/Typography'
 
 import { 
     getCollectionCostPerBaseUnit, 
@@ -18,7 +19,7 @@ import {
     getBaseUnit
 } from '../redux/selectors'
 import { changeModelLimitType, changeModelLimits } from '../redux/model'
-import { formatCurrency, roundFloatingPoint } from '../assets/Utils'
+import { roundFloatingPoint } from '../assets/Utils'
 
 const useStyles = makeStyles({
     controlBox: {
@@ -80,18 +81,20 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
 
     return (
         <Grid item xs={12} md={4} className={classes.controlBox}>
-            there are {variable.count} variable ingredients
+            <Typography gutterBottom gutterTop >
+                Model limit type:
+            </Typography>
             <RadioGroup row value={modelLimitType} onChange={e => changeModelLimitType(e.target.value)}>
                 <FormControlLabel
                     value='%tot'
                     control={<Radio />}
-                    label='% of total'
+                    label='total %'
                     labelPlacement='bottom'
                 />
                 <FormControlLabel
                     value='%col'
                     control={<Radio />}
-                    label='% of collection'
+                    label='collection %'
                     labelPlacement='bottom'
                 />
                 <FormControlLabel
@@ -101,6 +104,9 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
                     labelPlacement='bottom'
                 />
             </RadioGroup>
+            <Typography id='range-slider' gutterBottom>
+                Set limits for cost model:
+            </Typography>
             <Slider 
                 className={classes.rangeSlider}
                 value={tempLimits}
