@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.js": "/cost-modeller/static/js/main.1d8714fa.chunk.js",
-    "main.js.map": "/cost-modeller/static/js/main.1d8714fa.chunk.js.map",
+    "main.js": "/cost-modeller/static/js/main.11ccbf39.chunk.js",
+    "main.js.map": "/cost-modeller/static/js/main.11ccbf39.chunk.js.map",
     "runtime-main.js": "/cost-modeller/static/js/runtime-main.4cd013c3.js",
     "runtime-main.js.map": "/cost-modeller/static/js/runtime-main.4cd013c3.js.map",
-    "static/js/2.a5cb5e55.chunk.js": "/cost-modeller/static/js/2.a5cb5e55.chunk.js",
-    "static/js/2.a5cb5e55.chunk.js.map": "/cost-modeller/static/js/2.a5cb5e55.chunk.js.map",
+    "static/js/2.3df24e69.chunk.js": "/cost-modeller/static/js/2.3df24e69.chunk.js",
+    "static/js/2.3df24e69.chunk.js.map": "/cost-modeller/static/js/2.3df24e69.chunk.js.map",
     "index.html": "/cost-modeller/index.html",
-    "precache-manifest.a542f72f4d62f87667089559d77a5d22.js": "/cost-modeller/precache-manifest.a542f72f4d62f87667089559d77a5d22.js",
+    "precache-manifest.d9fbe0a9b561ad7191ad00cd9821d315.js": "/cost-modeller/precache-manifest.d9fbe0a9b561ad7191ad00cd9821d315.js",
     "service-worker.js": "/cost-modeller/service-worker.js",
-    "static/js/2.a5cb5e55.chunk.js.LICENSE.txt": "/cost-modeller/static/js/2.a5cb5e55.chunk.js.LICENSE.txt",
+    "static/js/2.3df24e69.chunk.js.LICENSE.txt": "/cost-modeller/static/js/2.3df24e69.chunk.js.LICENSE.txt",
     "static/media/chemistry.67b5b410.svg": "/cost-modeller/static/media/chemistry.67b5b410.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.4cd013c3.js",
-    "static/js/2.a5cb5e55.chunk.js",
-    "static/js/main.1d8714fa.chunk.js"
+    "static/js/2.3df24e69.chunk.js",
+    "static/js/main.11ccbf39.chunk.js"
   ]
 }
