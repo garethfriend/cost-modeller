@@ -3,7 +3,15 @@ import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles'
 
-import { getBaseCurrency, getBaseUnit, getCollectionCostPerBaseUnit, getCollectionTotalQuantity } from '../redux/selectors'
+import { 
+    getBaseCurrency, 
+    getBaseUnit, 
+    getCollectionCostPerBaseUnit, 
+    getCollectionTotalQuantity,
+    getUnitDecimalPlaces,
+    getCurrencyDecimalPlaces,
+    getPercentageDecimalPlaces 
+} from '../redux/selectors'
 import CustomDoughnut from './CustomDoughnut'
 import { roundFloatingPoint, formatCurrency } from '../assets/Utils'
 
@@ -15,7 +23,7 @@ const useStyles = makeStyles({
     }
 })
 
-const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUnit, baseCurrency }) => {
+const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUnit, baseCurrency, percentageDecimalPlaces }) => {
     const classes = useStyles()
     return (
         <>
@@ -30,7 +38,7 @@ const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUni
                             label: (tooltipItem, data) => `${data['datasets'][0]['data'][tooltipItem['index']]}${baseUnit}`,
                             afterLabel: (tooltipItem, data) => {
                                 var dataset = data['datasets'][0]
-                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalQuantity) * 100), 2)
+                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalQuantity) * 100), percentageDecimalPlaces)
                                 return `( ${percent}% of total )`
                             }
                         }
@@ -48,7 +56,7 @@ const CollectionsChart = ({ quantities, costs, totalQuantity, totalCost, baseUni
                             label: (tooltipItem, data) => `${formatCurrency(data['datasets'][0]['data'][tooltipItem['index']], baseCurrency)}`,
                             afterLabel: (tooltipItem, data) => {
                                 var dataset = data['datasets'][0]
-                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalCost) * 100), 2)
+                                var percent = roundFloatingPoint(((dataset['data'][tooltipItem['index']] / totalCost) * 100), percentageDecimalPlaces)
                                 return `( ${percent}% of total )`
                             }
                         }
@@ -66,22 +74,26 @@ const mapStateToProps = state => {
     const variableCost = variableQuantity * getCollectionCostPerBaseUnit(state, 'variable')
     const balanceCost = balanceQuantity * getCollectionCostPerBaseUnit(state, 'balance')
     const fixedCost = fixedQuantity * getCollectionCostPerBaseUnit(state, 'fixed')
+    const unitDecimalPlaces = getUnitDecimalPlaces(state)
+    const currencyDecimalPlaces = getCurrencyDecimalPlaces(state)
+    
 
     return ({
-    totalQuantity: roundFloatingPoint((variableQuantity + balanceQuantity + fixedQuantity), 3),
-    totalCost: roundFloatingPoint((variableCost + balanceCost + fixedCost), 2),
+    totalQuantity: roundFloatingPoint((variableQuantity + balanceQuantity + fixedQuantity), unitDecimalPlaces),
+    totalCost: roundFloatingPoint((variableCost + balanceCost + fixedCost), currencyDecimalPlaces),
     quantities: [
-        roundFloatingPoint(variableQuantity, 3), 
-        roundFloatingPoint(balanceQuantity, 3), 
-        roundFloatingPoint(fixedQuantity, 3)
+        roundFloatingPoint(variableQuantity, unitDecimalPlaces), 
+        roundFloatingPoint(balanceQuantity, unitDecimalPlaces), 
+        roundFloatingPoint(fixedQuantity, unitDecimalPlaces)
     ],
     costs: [
-        roundFloatingPoint(variableCost, 2),
-        roundFloatingPoint(balanceCost, 2),
-        roundFloatingPoint(fixedCost, 2) 
+        roundFloatingPoint(variableCost, currencyDecimalPlaces),
+        roundFloatingPoint(balanceCost, currencyDecimalPlaces),
+        roundFloatingPoint(fixedCost, currencyDecimalPlaces) 
     ],
     baseUnit: getBaseUnit(state),
-    baseCurrency: getBaseCurrency(state)
+    baseCurrency: getBaseCurrency(state),
+    percentageDecimalPlaces: getPercentageDecimalPlaces(state)
 })
 }
 

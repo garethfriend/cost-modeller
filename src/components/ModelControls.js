@@ -13,10 +13,11 @@ import {
     getCollectionCount, 
     getCollectionPercentOfTotal, 
     getCollectionTotalQuantity, 
-    getIngredientsTotalQuantity,
     getModelLimitType,
     getModelLimits, 
-    getBaseUnit
+    getBaseUnit,
+    getUnitDecimalPlaces,
+    getPercentageDecimalPlaces
 } from '../redux/selectors'
 import { changeModelLimitType, changeModelLimits } from '../redux/model'
 import { roundFloatingPoint } from '../assets/Utils'
@@ -32,7 +33,17 @@ const useStyles = makeStyles({
     }
 })
 
-const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, modelLimitType, changeModelLimits, changeModelLimitType, baseUnits }) => {
+const ModelControls = ({
+                        balance, 
+                        variable, 
+                        modelLimits, 
+                        modelLimitType, 
+                        changeModelLimits, 
+                        changeModelLimitType, 
+                        baseUnits, 
+                        unitDecimalPlaces, 
+                        percentageDecimalPlaces 
+                    }) => {
     const classes = useStyles()
     const [tempLimits, setTempLimits] = useState(modelLimits)
     
@@ -61,12 +72,13 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
         }
     }
 
-    const valueText = (value) => (modelLimitType === '%tot' || modelLimitType === '%col') ? `${value}%` : `${value}${baseUnits}`      
+    const valueText = (value) => (modelLimitType === '%tot' || modelLimitType === '%col') ? `${value}%` : `${value}${baseUnits}`
+    const decimalPlaces = (modelLimitType === '%tot' || modelLimitType === '%col') ? percentageDecimalPlaces : unitDecimalPlaces     
 
     const marks = [
         {
           value: calculateSliderLimits().min,
-          label: `-${valueText(roundFloatingPoint(calculateSliderLimits().min, 2))}`,
+          label: `${valueText(roundFloatingPoint(calculateSliderLimits().min, decimalPlaces))}`,
         },
         {
           value: 0,
@@ -74,14 +86,14 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
         },
         {
           value: calculateSliderLimits().max,
-          label: `+${valueText(roundFloatingPoint(calculateSliderLimits().max, 2))}`,
+          label: `+${valueText(roundFloatingPoint(calculateSliderLimits().max, decimalPlaces))}`,
         },
       ]
       
 
     return (
         <Grid item xs={12} md={4} className={classes.controlBox}>
-            <Typography gutterBottom gutterTop >
+            <Typography gutterBottom >
                 Model limit type:
             </Typography>
             <RadioGroup row value={modelLimitType} onChange={e => changeModelLimitType(e.target.value)}>
@@ -127,13 +139,9 @@ const ModelControls = ({ totalQuantity, fixed, balance, variable, modelLimits, m
 const mapStateToProps = state =>({
     modelLimitType: getModelLimitType(state),
     modelLimits: getModelLimits(state),
-    totalQuantity: getIngredientsTotalQuantity(state),
     baseUnits: getBaseUnit(state),
-    fixed: {
-        quantity: getCollectionTotalQuantity(state, 'fixed'),
-        percent: getCollectionPercentOfTotal(state, 'fixed'),
-        costPerBaseUnit: getCollectionCostPerBaseUnit(state, 'fixed'),
-    },
+    unitDecimalPlaces: getUnitDecimalPlaces(state),
+    percentageDecimalPlaces: getPercentageDecimalPlaces(state),
     balance: {
         quantity: getCollectionTotalQuantity(state, 'balance'),
         percent: getCollectionPercentOfTotal(state, 'balance'),

@@ -16,6 +16,9 @@ const getBaseCurrency = state => fromConfig.getBaseCurrency(state.config)
 const getBaseUnit = state => fromConfig.getBaseUnit(state.config)
 const getUnitType = state => fromConfig.getUnitType(state.config)
 const getConfig = state => state.config
+const getUnitDecimalPlaces = state => fromConfig.getUnitDecimalPlaces(state.config)
+const getCurrencyDecimalPlaces = state => fromConfig.getCurrencyDecimalPlaces(state.config)
+const getPercentageDecimalPlaces = state => fromConfig.getPercentageDecimalPlaces(state.config)
 
 // ERRORS SELECTORS
 const getErrors = state => state.errors
@@ -192,6 +195,9 @@ export {
     getUnitDefinitions,
     getBaseUnit,
     getUnitType,
+    getUnitDecimalPlaces,
+    getCurrencyDecimalPlaces,
+    getPercentageDecimalPlaces,
     getErrors,
     getBaseCurrency,
     getBaseCurrencyExchangeRate,

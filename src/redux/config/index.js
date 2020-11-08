@@ -1,7 +1,10 @@
 import { 
     UNIT_TYPES_SELECTED,
     BASE_UNITS_SELECTED,
-    BASE_CURRENCY_SELECTED 
+    BASE_CURRENCY_SELECTED,
+    UNIT_DECIMAL_PLACES_SELECTED,
+    CURRENCY_DECIMAL_PLACES_SELECTED,
+    PERCENTAGE_DECIMAL_PLACES_SELECTED 
 } from '../types'
 import { combineReducers } from 'redux'
 import { createSelector } from 'reselect'
@@ -23,6 +26,22 @@ export const changeBaseCurrency = (code) => ({
     type: BASE_CURRENCY_SELECTED,
     payload: code
 })
+
+export const changeUnitDecimalPlaces = (places) => ({
+    type: UNIT_DECIMAL_PLACES_SELECTED,
+    payload: places
+})
+
+export const changeCurrencyDecimalPlaces = (places) => ({
+    type: CURRENCY_DECIMAL_PLACES_SELECTED,
+    payload: places
+})
+
+export const changePercentageDecimalPlaces = (places) => ({
+    type: PERCENTAGE_DECIMAL_PLACES_SELECTED,
+    payload: places
+})
+
 
 // REDUCERS
 
@@ -55,10 +74,40 @@ const baseCurrencyReducer = (state = 'USD', action) => {
     }
 }
 
+const unitDecimalPlacesReducer = (state = 3, action) => {
+    switch (action.type) {
+        case UNIT_DECIMAL_PLACES_SELECTED:
+            return parseInt(action.payload)
+        default:
+            return state
+    }
+}
+
+const currencyDecimalPlacesReducer = (state = 2, action) => {
+    switch (action.type) {
+        case CURRENCY_DECIMAL_PLACES_SELECTED:
+            return parseInt(action.payload)
+        default:
+            return state
+    }
+}
+
+const percentageDecimalPlacesReducer = (state = 2, action) => {
+    switch (action.type) {
+        case PERCENTAGE_DECIMAL_PLACES_SELECTED:
+            return parseInt(action.payload)
+        default:
+            return state
+    }
+}
+
 const configReducer = combineReducers({
     unitType: unitTypeReducer,
     baseUnit: baseUnitsReducer,
-    baseCurrency: baseCurrencyReducer
+    baseCurrency: baseCurrencyReducer,
+    unitDecimalPlaces: unitDecimalPlacesReducer,
+    currencyDecimalPlaces: currencyDecimalPlacesReducer,
+    percentageDecimalPlaces: percentageDecimalPlacesReducer
 })
 
 export default configReducer
@@ -70,6 +119,12 @@ export const getBaseCurrency = state => state.baseCurrency
 export const getBaseUnit = state => state.baseUnit
 
 export const getUnitType = state => state.unitType
+
+export const getUnitDecimalPlaces = state => state.unitDecimalPlaces
+
+export const getCurrencyDecimalPlaces = state => state.currencyDecimalPlaces
+
+export const getPercentageDecimalPlaces = state => state.percentageDecimalPlaces
 
 /**
  * Function to retrun the appropriate unitTypes definitions object based on the value of config.unitType piece of state.

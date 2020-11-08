@@ -7,8 +7,8 @@ const useStyles = makeStyles({
     relative: {
         position: 'relative',
         width: '100%',
-        // height: '100%'
-        minHeight: '100%'
+        height: '304px'
+        // minHeight: '100%'
     },
     centreText: {
         position: 'absolute',

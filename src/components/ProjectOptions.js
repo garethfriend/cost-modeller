@@ -10,10 +10,18 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 
 import CurrencyDropdown from './CurrencyDropdown'
-import { getBaseCurrency, getBaseUnit, getUnitType } from '../redux/selectors'
-import { changeBaseCurrency, changeUnitType, changeBaseUnits } from '../redux/config'
+import { getBaseCurrency, getBaseUnit, getCurrencyDecimalPlaces, getPercentageDecimalPlaces, getUnitDecimalPlaces, getUnitType } from '../redux/selectors'
+import { 
+    changeBaseCurrency, 
+    changeUnitType, 
+    changeBaseUnits, 
+    changeCurrencyDecimalPlaces, 
+    changeUnitDecimalPlaces, 
+    changePercentageDecimalPlaces 
+} from '../redux/config'
 import MeasureDropdown from './MeasureDropdown'
 import UnitTypeDropdown from './UnitTypeDropdown'
+import { TextField } from '@material-ui/core'
 
 const useStyles = makeStyles(theme => ({
     buttonFloat: {
@@ -27,17 +35,30 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const ProjectOptions = (props) => {
-    const { baseCurrency, unitType, baseUnit, changeBaseCurrency, changeUnitType, changeBaseUnits, open, handleOptionsClose } = props
+const ProjectOptions = ({ 
+                        baseCurrency, 
+                        unitType, 
+                        baseUnit,
+                        unitDecimalPlaces,
+                        currencyDecimalPlaces,
+                        percentageDecimalPlaces, 
+                        changeBaseCurrency, 
+                        changeUnitType, 
+                        changeBaseUnits, 
+                        changeUnitDecimalPlaces, 
+                        changeCurrencyDecimalPlaces, 
+                        changePercentageDecimalPlaces, 
+                        open, 
+                        handleOptionsClose }) => {
     const classes = useStyles()
     return (
         <Drawer anchor='top' open={open} onClose={() => handleOptionsClose(false)}>
             <div className={classes.drawerContainer}>
                 <Grid item container direction='row' spacing={3} alignItems='center'>
-                    <Grid item>
+                    <Grid item xs={12}>
                         <Typography variant='h6'>Project Options:</Typography>
                     </Grid>
-                    <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
                         <CurrencyDropdown
                             id='baseCurrencySelect'
                             label='base currency'
@@ -45,7 +66,7 @@ const ProjectOptions = (props) => {
                             onChange={changeBaseCurrency}
                         />
                     </Grid>
-                    <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
                         <UnitTypeDropdown
                             id='unitTypeSelect'
                             label='unit types'
@@ -53,12 +74,48 @@ const ProjectOptions = (props) => {
                             onChange={changeUnitType}
                         />
                     </Grid>
-                    <Grid item className={classes.dropdownContainer} xs={12} md='auto'>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
                         <MeasureDropdown 
                             id='baseUnitSelect'
                             label='base units'
                             value={baseUnit}
                             onChange={changeBaseUnits}
+                        />
+                    </Grid>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
+                        <TextField
+                            type='number'
+                            variant='outlined'
+                            inputProps={{ min: '0', max: '5' }}
+                            size='small'
+                            fullWidth 
+                            label='Decimal places for units of measure'
+                            value={unitDecimalPlaces}
+                            onChange={e => changeUnitDecimalPlaces(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
+                        <TextField
+                            type='number'
+                            variant='outlined'
+                            inputProps={{ min: '0', max: '5' }}
+                            size='small'
+                            fullWidth 
+                            label='Decimal places for currency'
+                            value={currencyDecimalPlaces}
+                            onChange={e => changeCurrencyDecimalPlaces(e.target.value)}
+                        />
+                    </Grid>
+                    <Grid item className={classes.dropdownContainer} xs={12} md={4}>
+                        <TextField
+                            type='number'
+                            variant='outlined'
+                            inputProps={{ min: '0', max: '5' }}
+                            size='small'
+                            fullWidth 
+                            label='Decimal places for percentages'
+                            value={percentageDecimalPlaces}
+                            onChange={e => changePercentageDecimalPlaces(e.target.value)}
                         />
                     </Grid>
                 </Grid>
@@ -75,7 +132,20 @@ const ProjectOptions = (props) => {
 const mapStateToProps = (state) => ({ 
         baseCurrency: getBaseCurrency(state),
         unitType: getUnitType(state),
-        baseUnit: getBaseUnit(state)
+        baseUnit: getBaseUnit(state),
+        unitDecimalPlaces: getUnitDecimalPlaces(state),
+        currencyDecimalPlaces: getCurrencyDecimalPlaces(state),
+        percentageDecimalPlaces: getPercentageDecimalPlaces(state)
 })
 
-export default connect(mapStateToProps, { changeBaseCurrency, changeUnitType, changeBaseUnits })(ProjectOptions)
+export default connect(
+    mapStateToProps, 
+    { 
+        changeBaseCurrency, 
+        changeUnitType, 
+        changeBaseUnits, 
+        changeUnitDecimalPlaces, 
+        changeCurrencyDecimalPlaces, 
+        changePercentageDecimalPlaces 
+    }
+    )(ProjectOptions)
